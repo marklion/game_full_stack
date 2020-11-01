@@ -1,0 +1,9 @@
+build
+game_deliver.tar.gz
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

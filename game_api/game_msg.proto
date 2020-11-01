@@ -1,0 +1,19 @@
+syntax="proto3";
+package game;
+
+message sync_session{
+    string session=1;
+}
+
+message game_mng_result {
+    bool result = 1;
+}
+
+message user_login {
+    string code=1;
+}
+
+message user_login_resp {
+    bool result = 1;
+    string session = 2;
+}
