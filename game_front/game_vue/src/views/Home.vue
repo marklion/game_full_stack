@@ -20,7 +20,7 @@ export default {
   },
   beforeMount: function() {
     var vue_this = this;
-    this.axios.post('http://localhost/game_rest/login', {code:this.$route.query.code}).then(
+    this.axios.post('/game_rest/login', {code:this.$route.query.code}).then(
       function(resp) {
         vue_this.$cookies.set("ssid", resp.data.result);
       }

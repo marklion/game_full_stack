@@ -23,8 +23,36 @@
 #include <sys/epoll.h>
 #include <sys/timerfd.h>
 #include <list>
+#include <thread>
 
 tdf_main tdf_main::m_inst;
+static int g_main2work[2];
+static int g_work2main[2];
+
+struct tdf_async_data {
+    tdf_async_proc m_proc;
+    void *m_private;
+};
+
+static void work_thread_main_loop()
+{
+    std::cout << "sssss" << std::endl;
+
+    while (true)
+    {
+        tdf_async_data *pcoming = nullptr;
+        read(g_main2work[0], &pcoming, sizeof(pcoming));
+        if (pcoming->m_proc)
+        {
+            pcoming->m_proc(pcoming->m_private);
+        }
+        delete pcoming;
+    }
+
+
+}
+
+static std::thread g_work_thread(work_thread_main_loop);
 
 class tdf_data;
 class tdf_listen;
@@ -39,9 +67,7 @@ static int g_epoll_fd;
 static bool g_exit_flag = false;
 static bool g_pause_epoll = false;
 
-tdf_main::tdf_main() {
-    g_epoll_fd = epoll_create(1);
-}
+
 tdf_main &tdf_main::get_inst() 
 {
     return m_inst;
@@ -52,6 +78,34 @@ public:
     virtual void proc_in() = 0;
     virtual void proc_out() = 0;
 };
+
+struct tdf_work_pipe_channel:public Itdf_io_channel {
+    virtual void proc_in() {
+        tdf_async_data *pcoming = nullptr;
+        read(g_work2main[0], &pcoming, sizeof(pcoming));
+        if (pcoming->m_proc)
+        {
+            pcoming->m_proc(pcoming->m_private);
+        }
+        delete pcoming;
+    }
+    virtual void proc_out() {
+
+    }
+} g_proc_work_coming_data;
+
+tdf_main::tdf_main() {
+    g_epoll_fd = epoll_create(1);
+    pipe(g_main2work);
+    pipe(g_work2main);
+
+    struct epoll_event ev = {
+        .events = EPOLLIN,
+        .data = {.ptr = &g_proc_work_coming_data}
+    };
+
+    epoll_ctl(g_epoll_fd, EPOLL_CTL_ADD, g_work2main[0], &ev);
+}
 
 struct tdf_timer_node : public Itdf_io_channel{
     int m_sec = -1;
@@ -414,4 +468,18 @@ void tdf_main::stop_timer(int _timer_handle)
 tdf_main::~tdf_main()
 {
     
+}
+void tdf_main::Async_to_workthread(tdf_async_proc _func, void *_private)
+{
+    auto pout = new tdf_async_data();
+    pout->m_private = _private;
+    pout->m_proc = _func;
+    write(g_main2work[1], &pout, sizeof(pout));
+}
+void tdf_main::Async_to_mainthread(tdf_async_proc _func, void *_private)
+{
+    auto pout = new tdf_async_data();
+    pout->m_private = _private;
+    pout->m_proc = _func;
+    write(g_work2main[1], &pout, sizeof(pout));
 }

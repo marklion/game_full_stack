@@ -25,7 +25,8 @@ done
 cp ${SRC_DIR}/nginx_conf/nginx.conf ${BUILD_DIR}/conf
 
 pushd ${SRC_DIR}/game_front/game_vue
-npm install && npm run build
+[ -d node_modules ] || npm install 
+npm run build --no-clean
 cp ./dist -a ${BUILD_DIR}/
 popd
 

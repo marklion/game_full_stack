@@ -133,6 +133,8 @@ typedef void (*tdf_data_proc)(const std::string &_conn_chrct, const std::string 
 
 typedef void (*tdf_timer_proc)(void *_private);
 
+typedef void (*tdf_async_proc)(void *_private);
+
 class tdf_main {
     static tdf_main m_inst;
     tdf_main();
@@ -146,7 +148,10 @@ public:
     int start_timer(int _sec, tdf_timer_proc _proc, void *_private);
     void stop_timer(int _timer_handle);
     static tdf_main &get_inst();
+    void Async_to_workthread(tdf_async_proc _func, void *_private);
+    void Async_to_mainthread(tdf_async_proc _func, void *_private);
     ~tdf_main();
 };
+
 
 #endif // _TDF_INCLUDE_H_
