@@ -32,6 +32,7 @@ static int g_work2main[2];
 struct tdf_async_data {
     tdf_async_proc m_proc;
     void *m_private;
+    std::string m_chrct;
 };
 
 static void work_thread_main_loop()
@@ -44,7 +45,7 @@ static void work_thread_main_loop()
         read(g_main2work[0], &pcoming, sizeof(pcoming));
         if (pcoming->m_proc)
         {
-            pcoming->m_proc(pcoming->m_private);
+            pcoming->m_proc(pcoming->m_private, pcoming->m_chrct);
         }
         delete pcoming;
     }
@@ -85,7 +86,7 @@ struct tdf_work_pipe_channel:public Itdf_io_channel {
         read(g_work2main[0], &pcoming, sizeof(pcoming));
         if (pcoming->m_proc)
         {
-            pcoming->m_proc(pcoming->m_private);
+            pcoming->m_proc(pcoming->m_private, pcoming->m_chrct);
         }
         delete pcoming;
     }
@@ -469,17 +470,19 @@ tdf_main::~tdf_main()
 {
     
 }
-void tdf_main::Async_to_workthread(tdf_async_proc _func, void *_private)
+void tdf_main::Async_to_workthread(tdf_async_proc _func, void *_private, const std::string &_chrct)
 {
     auto pout = new tdf_async_data();
     pout->m_private = _private;
     pout->m_proc = _func;
+    pout->m_chrct = _chrct;
     write(g_main2work[1], &pout, sizeof(pout));
 }
-void tdf_main::Async_to_mainthread(tdf_async_proc _func, void *_private)
+void tdf_main::Async_to_mainthread(tdf_async_proc _func, void *_private, const std::string &_chrct)
 {
     auto pout = new tdf_async_data();
     pout->m_private = _private;
     pout->m_proc = _func;
+    pout->m_chrct = _chrct;
     write(g_work2main[1], &pout, sizeof(pout));
 }

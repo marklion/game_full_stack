@@ -6,6 +6,12 @@
 
 #include <ngrest/common/Service.h>
 
+struct user_info_resp {
+    std::string user_name;
+    std::string user_logo;
+    int user_cash;
+};
+
 //! Dummy description for the service
 /*! Some detailed description of the service */
 // '*location' comment sets resource path for this service
@@ -31,6 +37,12 @@ public:
     // *location: /login
     // *method: POST
     std::string proc_login(const std::string code);
+    // *location: /userinfo/{ssid}
+    // *method: GET
+    user_info_resp proc_get_user_info(const std::string ssid);
+    // *location: /logoff/{ssid}
+    // *method: GET
+    std::string proc_logoff(const std::string ssid);
 };
 
 

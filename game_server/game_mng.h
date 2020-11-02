@@ -8,7 +8,7 @@ struct game_mng_resp {
     game_msg_type m_type = game_msg_type_max;
     std::string m_data;
 };
-game_mng_resp *game_mng_proc(game_msg_type _type, const std::string &_data);
+void game_mng_proc(std::string &_chrct, game_msg_type _type, const std::string &_data);
 void game_mng_register_func();
 
 

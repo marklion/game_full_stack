@@ -17,3 +17,9 @@ message user_login_resp {
     bool result = 1;
     string session = 2;
 }
+
+message user_info_resp {
+    string user_name = 1;
+    string user_logo = 2;
+    int32 user_cash = 3;
+}

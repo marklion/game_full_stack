@@ -145,9 +145,7 @@ void game_entry_send_data(const std::string &_chrct,game_msg_type _type, const s
 
 class game_api_channel:public game_channel {
     virtual void proc_data(game_msg_type _type, const std::string &_data) {
-        auto presult = game_mng_proc(_type, _data);
-        send_helper(presult->m_type, presult->m_data);
-        delete presult;
+        game_mng_proc(m_chrct, _type, _data);
     }
 public:
     game_api_channel(const std::string &_chrct):game_channel(_chrct) {}
@@ -156,24 +154,4 @@ public:
 void game_API_proc_new_connect(const std::string &_chrct) 
 {
     g_channel_map[_chrct] = new game_api_channel(_chrct);
-}
-void game_API_proc_hup(const std::string &_chrct)
-{
-    auto gc = g_channel_map[_chrct];
-    if (gc != nullptr)
-    {
-        gc->proc_hup();
-        g_channel_map.erase(_chrct);
-        delete gc;
-    }
-}
-void game_API_proc_data(const std::string &_chrct, const std::string &_data)
-{
-    auto channel = g_channel_map[_chrct];
-
-    if (channel)
-    {
-        g_log.log_package(_data.data(), _data.length());
-        channel->recv_helper(_data);
-    }
 }

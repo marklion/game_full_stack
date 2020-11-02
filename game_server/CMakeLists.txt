@@ -13,4 +13,4 @@ add_executable(tcp_daemon ${MAIN_SRC})
 find_library(GAME_API_LIB libgame_api.so ${GAME_BUILD}/lib)
 find_library(TCP_FRAMEWORK libtcp_framework.a ${GAME_BUILD}/lib)
 
-target_link_libraries(tcp_daemon ${GAME_API_LIB} ${TCP_FRAMEWORK} protobuf uuid pthread)
+target_link_libraries(tcp_daemon ${GAME_API_LIB} ${TCP_FRAMEWORK} protobuf uuid pthread curl)

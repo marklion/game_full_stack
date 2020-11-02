@@ -93,11 +93,11 @@ public:
         output_2_fd(msg, m_log_stdout);
     }
     void log_package(const char *_data, int _len) {
-        char tmp[3] = {0};
+        char tmp[4] = {0};
         std::string out_log;
         for (int i = 0; i < _len; i++)
         {
-            sprintf(tmp, "%02X", _data[i]);
+            sprintf(tmp, "%02X ", _data[i]);
             out_log.append(tmp);
         }
         output_2_fd(out_log, m_log_stdout);
@@ -133,7 +133,7 @@ typedef void (*tdf_data_proc)(const std::string &_conn_chrct, const std::string 
 
 typedef void (*tdf_timer_proc)(void *_private);
 
-typedef void (*tdf_async_proc)(void *_private);
+typedef void (*tdf_async_proc)(void *_private, const std::string &_chrct);
 
 class tdf_main {
     static tdf_main m_inst;
@@ -148,8 +148,8 @@ public:
     int start_timer(int _sec, tdf_timer_proc _proc, void *_private);
     void stop_timer(int _timer_handle);
     static tdf_main &get_inst();
-    void Async_to_workthread(tdf_async_proc _func, void *_private);
-    void Async_to_mainthread(tdf_async_proc _func, void *_private);
+    void Async_to_workthread(tdf_async_proc _func, void *_private, const std::string &_chrct);
+    void Async_to_mainthread(tdf_async_proc _func, void *_private, const std::string &_chrct);
     ~tdf_main();
 };
 

@@ -11,6 +11,4 @@ void game_entry_send_data(const std::string &_chrct,game_msg_type _type, const s
 
 
 void game_API_proc_new_connect(const std::string &_chrct);
-void game_API_proc_hup(const std::string &_chrct);
-void game_API_proc_data(const std::string &_chrct, const std::string &_data);
 #endif // _GAME_ENTRY_H_

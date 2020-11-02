@@ -2,8 +2,11 @@
 #include "game_entry.h"
 #include "../public.h"
 #include "game_mng.h"
+#include <curl/curl.h>
+
 int main(int argc, char const *argv[])
 {
+    curl_global_init(CURL_GLOBAL_ALL);
     std::cout << "hello world" <<std::endl;
     
     tdf_main::get_inst().open_listen(12345, 
@@ -27,13 +30,15 @@ int main(int argc, char const *argv[])
     {
         std::cout << "game port openning failed" << std::endl;
     }
-    if (true != tdf_main::get_inst().open_listen(GAME_API_PORT, game_API_proc_new_connect, game_API_proc_hup, game_API_proc_data))
+    if (true != tdf_main::get_inst().open_listen(GAME_API_PORT, game_API_proc_new_connect,game_entry_proc_hup, game_entry_proc_data))
     {
         std::cout << "game api port openning failed" << std::endl;
     }
 
     game_mng_register_func();    
     tdf_main::get_inst().run();
+
+    curl_global_cleanup();
 
     return 0;
 }

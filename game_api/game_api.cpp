@@ -2,6 +2,7 @@
 #include "game_msg.pb.h"
 
 #include "../public.h"
+#include <curl/curl.h>
 
 #define GAME_API_SERVER "127.0.0.1"
 
@@ -44,7 +45,7 @@ api_resp *game_api_send_recv(game_msg_type _type, const std::string &_data)
                 {
                     char recv_buff[256];
                     int recv_len = recv(fd, recv_buff, sizeof(recv_buff), 0);
-                    if (recv_len < 0)
+                    if (recv_len <= 0)
                     {
                         break;
                     }
@@ -106,6 +107,76 @@ std::string game_api_user_login(const std::string &_code)
             ret = resp.session();
         }
 
+    }
+    delete presult;
+
+    return ret;
+}
+
+static size_t game_api_proc_curl(void *ptr, size_t size, size_t nmeb, void *userdata) {
+    auto in_buff = (std::string *)userdata;
+
+    in_buff->append((char *)ptr, size * nmeb);
+    
+    return size * nmeb;
+}
+
+std::string game_api_wechat_rest_req(const std::string &_req)
+{
+    std::string in_buff;
+    auto curl_handle = curl_easy_init();
+    if (nullptr != curl_handle)
+    {
+        curl_easy_setopt(curl_handle, CURLOPT_URL, _req.c_str());
+        curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, &in_buff);
+        curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, game_api_proc_curl);
+        curl_easy_perform(curl_handle);
+        curl_easy_cleanup(curl_handle);
+    }
+
+    return in_buff;
+}
+
+game_api_user_info_resp game_api_get_user_info(const std::string &_ssid)
+{
+    game_api_user_info_resp ret;
+    game::sync_session req;
+
+    req.set_session(_ssid);
+
+    auto presult = game_api_send_recv(game_msg_type_get_user_info, req.SerializeAsString());
+    if (presult->m_type == game_msg_type_get_user_info_resp)
+    {
+        game::user_info_resp resp;
+        resp.ParseFromString(presult->m_data);
+        if (resp.user_name().length() > 0)
+        {
+            ret.user_name = resp.user_name();
+            ret.user_logo = resp.user_logo();
+            ret.user_cash = resp.user_cash();
+        }
+    }
+    delete presult;
+
+    return ret;
+}
+
+bool game_api_logoff_user(const std::string &_ssid)
+{
+    bool ret = false;
+    game::sync_session req;
+
+    req.set_session(_ssid);
+
+    auto presult = game_api_send_recv(game_msg_type_logoff_user, req.SerializeAsString());
+    if (presult->m_type == game_msg_type_mng_result)
+    {
+        game::game_mng_result resp;
+        resp.ParseFromString(presult->m_data);
+        if (resp.result())
+        {
+            ret = true;
+        }
     }
     delete presult;
 
