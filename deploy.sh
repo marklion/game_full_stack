@@ -26,6 +26,7 @@ start_all_server() {
     nginx -c /conf/nginx.conf
     valgrind /root/.ngrest/ngrest-build/deploy/bin/ngrestserver -s /lib &
     valgrind tcp_daemon
+    bash
 }
 
 start_docker_con() {
