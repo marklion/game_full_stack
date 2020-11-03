@@ -27,7 +27,9 @@ static bool game_mng_getupid_acctok(const std::string &_code, std::string *_pupi
 {
     bool ret = false;
     std::string wechat_secret(getenv("WECHAT_SECRET"));
+    g_log.log(wechat_secret);
     std::string req = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx987b51617d4be3ae&secret=" + wechat_secret + "&code=" + _code + "&grant_type=authorization_code";
+    g_log.log(req);
     std::string in_buff = game_api_wechat_rest_req(req); 
     neb::CJsonObject oJson(in_buff);
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GAME_DELIVER=${1:-game_deliver.tar.gz}
-WECHAT_SECRET=$2
+WECHAT_SECRET_INPUT=$2
 PORT=${3:-80}
 DOCKER_IMG_NAME="game_deploy:v1.0"
 SRC_DIR=`dirname $(realpath $0)`
@@ -29,7 +29,7 @@ start_all_server() {
 }
 
 start_docker_con() {
-    local CON_ID=`docker create -ti -p 80:${PORT} -e WECHAT_SECRET="${WECHAT_SECRET}" ${DOCKER_IMG_NAME} /root/deploy.sh`
+    local CON_ID=`docker create -ti -p 80:${PORT} -e WECHAT_SECRET="${WECHAT_SECRET_INPUT}" ${DOCKER_IMG_NAME} /root/deploy.sh`
     docker cp $0 ${CON_ID}:/root/
     docker cp ${GAME_DELIVER} ${CON_ID}:/root/
     docker start -ai ${CON_ID}
