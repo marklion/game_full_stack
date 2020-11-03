@@ -81,6 +81,10 @@ public:
     int m_total_cash = 0;
     std::string m_upid;
     std::string m_chrct;
+    bool add_cash(int _cash) {
+        m_total_cash += _cash;
+        return true;
+    }
     static void deregister_session(const std::string &_session)
     {
         auto psession = m_session_map[_session];
@@ -202,6 +206,28 @@ static google::protobuf::Message *proc_logoff_user(game_msg_type _type, const st
     *_out_type = game_msg_type_mng_result;
     return pret;
 }
+
+static google::protobuf::Message *proc_add_cash(game_msg_type _type, const std::string &_data, const std::string &_from, game_msg_type *_out_type)
+{
+    game::game_mng_result *pret = new game::game_mng_result();
+    pret->set_result(false);
+
+    game::add_cash_req req;
+    req.ParseFromString(_data);
+
+    auto psession = game_session::get_session(req.ssid());
+    if (psession)
+    {
+        if (psession->add_cash(req.cash()))
+        {
+            pret->set_result(true);
+        }
+    }
+
+    *_out_type = game_msg_type_mng_result;
+    return pret;
+}
+
 static game_mng_msg_proc_pf g_msg_procs[game_msg_type_max] = {0};
 
 void game_mng_register_func()
@@ -209,6 +235,7 @@ void game_mng_register_func()
     g_msg_procs[game_msg_type_user_login] = proc_user_login;
     g_msg_procs[game_msg_type_get_user_info] = proc_get_user_info;
     g_msg_procs[game_msg_type_logoff_user] = proc_logoff_user;
+    g_msg_procs[game_msg_type_add_cash] = proc_add_cash;
 }
 
 void game_mng_proc(std::string &_chrct, game_msg_type _type, const std::string &_data)

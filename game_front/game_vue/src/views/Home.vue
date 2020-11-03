@@ -4,10 +4,42 @@
       微信登陆
     </el-button>
     <div v-else>
-      <el-avatar :src="user_logo"></el-avatar>
-      <div>{{user_name}}</div>
-      <i class="el-icon-money">{{user_cash}}</i>
-      <div><el-button type="danger" @click="logoff">退出登录</el-button></div>
+      <el-container>
+        <el-header>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <el-avatar :src="user_logo" :size="50"></el-avatar>
+            </el-col>
+            <el-col :span="12">
+              {{user_name}}
+            </el-col>
+          </el-row>
+        </el-header>
+        <el-main>
+          <el-row :gutter="20">
+            <el-col :span="12">
+              <i class="el-icon-money">当前金额</i>
+            </el-col>
+            <el-col :span="12">
+              {{user_cash}}
+            </el-col>
+          </el-row>
+          <el-row :gutter="20">
+            <el-col :span="6">
+              充值金额
+            </el-col>
+            <el-col :span="12">
+              <el-input-number v-model="added_cash" :step="1000" :max="50000"></el-input-number>
+            </el-col>
+            <el-col :span="6">
+              <el-button type="primary" @click="add_cash">加钱</el-button>
+            </el-col>
+          </el-row>
+        </el-main>
+        <el-footer>
+          <el-button type="danger" @click="logoff">退出登录</el-button>
+        </el-footer>
+      </el-container>
     </div>
   </div>
 </template>
@@ -24,7 +56,8 @@ export default {
       user_name: '',
       user_logo: '',
       user_cash: '',
-      is_login: false
+      is_login: false,
+      added_cash: 1000
     };
   },
   methods: {
@@ -57,6 +90,31 @@ export default {
         console.log(err);
       });
     },
+    add_cash: function() {
+      var vue_this = this;
+      var ssid = this.$cookies.get('ssid');
+      this.$axios.post('/game_rest/add_cash', {text:{ssid:ssid, cash:this.added_cash}}).then(function(resp) {
+        if (resp.data.result == 'success')
+        {
+          vue_this.get_cur_user_info();
+          vue_this.$notify({
+            title:'加钱成功',
+            message:'',
+            type: 'success'
+          });
+        }
+        else
+        {
+          vue_this.$notify({
+            title:'加钱失败',
+            message:'',
+            type: 'error'
+          });
+        }
+      }).catch(function(err) {
+        console.log(err);
+      });
+    },
   },
   beforeMount: function() {
     var vue_this = this;
@@ -75,3 +133,33 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .clearfix:before,
+  .clearfix:after {
+      display: table;
+      content: "";
+  }
+  .clearfix:after {
+      clear: both
+  }
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+        margin-bottom: 0;
+    }
+    
+  }
+  .el-button {
+        display: block;
+        width: 100%;
+        padding-left: 4px;
+        padding-right: 4px;
+  }
+  .el-input-number {
+        display: block;
+        width: 100%;
+        padding-left: 4px;
+        padding-right: 4px;
+  }
+</style>

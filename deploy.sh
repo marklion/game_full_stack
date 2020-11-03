@@ -24,8 +24,8 @@ get_docker_image() {
 start_all_server() {
     tar xf /root/game_deliver.tar.gz --skip-old-files -C /
     nginx -c /conf/nginx.conf
-    /root/.ngrest/ngrest-build/deploy/bin/ngrestserver -s /lib &
-    tcp_daemon
+    valgrind /root/.ngrest/ngrest-build/deploy/bin/ngrestserver -s /lib &
+    valgrind tcp_daemon
 }
 
 start_docker_con() {

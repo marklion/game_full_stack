@@ -12,6 +12,11 @@ struct user_info_resp {
     int user_cash;
 };
 
+struct add_cash_req {
+    std::string ssid;
+    int cash;
+};
+
 //! Dummy description for the service
 /*! Some detailed description of the service */
 // '*location' comment sets resource path for this service
@@ -43,6 +48,10 @@ public:
     // *location: /logoff/{ssid}
     // *method: GET
     std::string proc_logoff(const std::string ssid);
+
+    // *method: POST
+    // *location: /add_cash
+    std::string proc_add_cash(const add_cash_req& text);
 };
 
 

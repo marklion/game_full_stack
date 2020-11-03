@@ -97,7 +97,7 @@ public:
         std::string out_log;
         for (int i = 0; i < _len; i++)
         {
-            sprintf(tmp, "%02X ", _data[i]);
+            sprintf(tmp, "%02X ", (unsigned char)(_data[i]));
             out_log.append(tmp);
         }
         output_2_fd(out_log, m_log_stdout);

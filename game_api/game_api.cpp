@@ -182,3 +182,27 @@ bool game_api_logoff_user(const std::string &_ssid)
 
     return ret;
 }
+
+bool game_api_add_cash(const std::string &_ssid, int _cash)
+{
+    bool ret = false;
+    game::add_cash_req req;
+
+    req.set_ssid(_ssid);
+    req.set_cash(_cash);
+
+    g_log.log("start to add cash");
+    auto presult = game_api_send_recv(game_msg_type_add_cash, req.SerializeAsString());
+    if (presult->m_type == game_msg_type_mng_result)
+    {
+        game::game_mng_result resp;
+        resp.ParseFromString(presult->m_data);
+        if (resp.result())
+        {
+            ret = true;
+        }
+    }
+    delete presult;
+
+    return ret;
+}

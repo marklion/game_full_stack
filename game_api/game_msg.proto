@@ -23,3 +23,8 @@ message user_info_resp {
     string user_logo = 2;
     int32 user_cash = 3;
 }
+
+message add_cash_req {
+    string ssid = 1;
+    int32 cash = 2;
+}

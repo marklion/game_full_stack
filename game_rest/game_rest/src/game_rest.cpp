@@ -32,3 +32,14 @@ std::string game_rest::proc_logoff(const std::string ssid)
     game_api_logoff_user(ssid);
     return "success";
 }
+
+std::string game_rest::proc_add_cash(const add_cash_req& text)
+{
+    std::string ret = "failed";
+    if (game_api_add_cash(text.ssid, text.cash))
+    {
+        ret = "success";
+    }
+    
+    return ret;
+}

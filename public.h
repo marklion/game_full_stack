@@ -16,6 +16,7 @@ enum game_msg_type
     game_msg_type_get_user_info,
     game_msg_type_get_user_info_resp,
     game_msg_type_logoff_user,
+    game_msg_type_add_cash,
     game_msg_type_max
 };
 

@@ -47,7 +47,7 @@ struct TableStruct_game_5fmsg_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -55,6 +55,9 @@ struct TableStruct_game_5fmsg_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fmsg_2eproto;
 namespace game {
+class add_cash_req;
+class add_cash_reqDefaultTypeInternal;
+extern add_cash_reqDefaultTypeInternal _add_cash_req_default_instance_;
 class game_mng_result;
 class game_mng_resultDefaultTypeInternal;
 extern game_mng_resultDefaultTypeInternal _game_mng_result_default_instance_;
@@ -72,6 +75,7 @@ class user_login_respDefaultTypeInternal;
 extern user_login_respDefaultTypeInternal _user_login_resp_default_instance_;
 }  // namespace game
 PROTOBUF_NAMESPACE_OPEN
+template<> ::game::add_cash_req* Arena::CreateMaybeMessage<::game::add_cash_req>(Arena*);
 template<> ::game::game_mng_result* Arena::CreateMaybeMessage<::game::game_mng_result>(Arena*);
 template<> ::game::sync_session* Arena::CreateMaybeMessage<::game::sync_session>(Arena*);
 template<> ::game::user_info_resp* Arena::CreateMaybeMessage<::game::user_info_resp>(Arena*);
@@ -833,6 +837,161 @@ class user_info_resp PROTOBUF_FINAL :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fmsg_2eproto;
 };
+// -------------------------------------------------------------------
+
+class add_cash_req PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.add_cash_req) */ {
+ public:
+  inline add_cash_req() : add_cash_req(nullptr) {}
+  virtual ~add_cash_req();
+
+  add_cash_req(const add_cash_req& from);
+  add_cash_req(add_cash_req&& from) noexcept
+    : add_cash_req() {
+    *this = ::std::move(from);
+  }
+
+  inline add_cash_req& operator=(const add_cash_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline add_cash_req& operator=(add_cash_req&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const add_cash_req& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const add_cash_req* internal_default_instance() {
+    return reinterpret_cast<const add_cash_req*>(
+               &_add_cash_req_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(add_cash_req& a, add_cash_req& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(add_cash_req* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(add_cash_req* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline add_cash_req* New() const final {
+    return CreateMaybeMessage<add_cash_req>(nullptr);
+  }
+
+  add_cash_req* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<add_cash_req>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const add_cash_req& from);
+  void MergeFrom(const add_cash_req& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(add_cash_req* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.add_cash_req";
+  }
+  protected:
+  explicit add_cash_req(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_game_5fmsg_2eproto);
+    return ::descriptor_table_game_5fmsg_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSsidFieldNumber = 1,
+    kCashFieldNumber = 2,
+  };
+  // string ssid = 1;
+  void clear_ssid();
+  const std::string& ssid() const;
+  void set_ssid(const std::string& value);
+  void set_ssid(std::string&& value);
+  void set_ssid(const char* value);
+  void set_ssid(const char* value, size_t size);
+  std::string* mutable_ssid();
+  std::string* release_ssid();
+  void set_allocated_ssid(std::string* ssid);
+  private:
+  const std::string& _internal_ssid() const;
+  void _internal_set_ssid(const std::string& value);
+  std::string* _internal_mutable_ssid();
+  public:
+
+  // int32 cash = 2;
+  void clear_cash();
+  ::PROTOBUF_NAMESPACE_ID::int32 cash() const;
+  void set_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_cash() const;
+  void _internal_set_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.add_cash_req)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ssid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 cash_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fmsg_2eproto;
+};
 // ===================================================================
 
 
@@ -1230,9 +1389,97 @@ inline void user_info_resp::set_user_cash(::PROTOBUF_NAMESPACE_ID::int32 value) 
   // @@protoc_insertion_point(field_set:game.user_info_resp.user_cash)
 }
 
+// -------------------------------------------------------------------
+
+// add_cash_req
+
+// string ssid = 1;
+inline void add_cash_req::clear_ssid() {
+  ssid_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& add_cash_req::ssid() const {
+  // @@protoc_insertion_point(field_get:game.add_cash_req.ssid)
+  return _internal_ssid();
+}
+inline void add_cash_req::set_ssid(const std::string& value) {
+  _internal_set_ssid(value);
+  // @@protoc_insertion_point(field_set:game.add_cash_req.ssid)
+}
+inline std::string* add_cash_req::mutable_ssid() {
+  // @@protoc_insertion_point(field_mutable:game.add_cash_req.ssid)
+  return _internal_mutable_ssid();
+}
+inline const std::string& add_cash_req::_internal_ssid() const {
+  return ssid_.Get();
+}
+inline void add_cash_req::_internal_set_ssid(const std::string& value) {
+  
+  ssid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void add_cash_req::set_ssid(std::string&& value) {
+  
+  ssid_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:game.add_cash_req.ssid)
+}
+inline void add_cash_req::set_ssid(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  ssid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:game.add_cash_req.ssid)
+}
+inline void add_cash_req::set_ssid(const char* value,
+    size_t size) {
+  
+  ssid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:game.add_cash_req.ssid)
+}
+inline std::string* add_cash_req::_internal_mutable_ssid() {
+  
+  return ssid_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* add_cash_req::release_ssid() {
+  // @@protoc_insertion_point(field_release:game.add_cash_req.ssid)
+  return ssid_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void add_cash_req::set_allocated_ssid(std::string* ssid) {
+  if (ssid != nullptr) {
+    
+  } else {
+    
+  }
+  ssid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ssid,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:game.add_cash_req.ssid)
+}
+
+// int32 cash = 2;
+inline void add_cash_req::clear_cash() {
+  cash_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 add_cash_req::_internal_cash() const {
+  return cash_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 add_cash_req::cash() const {
+  // @@protoc_insertion_point(field_get:game.add_cash_req.cash)
+  return _internal_cash();
+}
+inline void add_cash_req::_internal_set_cash(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  cash_ = value;
+}
+inline void add_cash_req::set_cash(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_cash(value);
+  // @@protoc_insertion_point(field_set:game.add_cash_req.cash)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
