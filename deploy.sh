@@ -1,8 +1,10 @@
 #!/bin/bash
 
-GAME_DELIVER=${1:-game_deliver.tar.gz}
-WECHAT_SECRET_INPUT=$2
-PORT=${3:-80}
+GAME_DELIVER="game_deliver.tar.gz"
+WECHAT_SECRET_INPUT=""
+PORT=80
+DATA_BASE="user_cash.db"
+
 DOCKER_IMG_NAME="game_deploy:v1.0"
 SRC_DIR=`dirname $(realpath $0)`
 is_in_container() {
@@ -35,6 +37,27 @@ start_docker_con() {
     docker cp ${GAME_DELIVER} ${CON_ID}:/root/
     docker start -ai ${CON_ID}
 }
+
+while getopts "D:p:w:d:" arg
+do
+    case $arg in
+        D)
+            GAME_DELIVER=${OPTARG}
+            ;;
+        p)
+            PORT=${OPTARG}
+            ;;
+        w)
+            WECHAT_SECRET_INPUT=${OPTARG}
+            ;;
+        d)
+            DATA_BASE=${OPTARG}
+            ;;
+        *)
+            echo "invalid args"
+            ;;
+    esac
+done
 
 if is_in_container 
 then

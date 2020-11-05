@@ -12,4 +12,4 @@ RUN ./configure --prefix=/usr && make -j 6 && make install
 WORKDIR /root/software
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y libpcre3 libpcre3-dev zlib1g-dev openssl libssl-dev libxml2 libxml2-dev libxslt-dev libgd-dev uuid-dev
 RUN ./nginx_websocket_install.sh
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y valgrind
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y valgrind sqlite3 libsqlite3-dev

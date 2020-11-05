@@ -83,6 +83,7 @@ public:
     std::string m_chrct;
     bool add_cash(int _cash) {
         m_total_cash += _cash;
+        game_database_update_cash(m_upid, m_total_cash);
         return true;
     }
     static void deregister_session(const std::string &_session)
