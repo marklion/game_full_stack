@@ -32,7 +32,9 @@ start_all_server() {
 }
 
 start_docker_con() {
-    local CON_ID=`docker create -ti -p 80:${PORT} -e WECHAT_SECRET="${WECHAT_SECRET_INPUT}" ${DOCKER_IMG_NAME} /root/deploy.sh`
+    local DATA_BASE_PATH=`realpath $DATA_BASE`
+    local DATA_BASE_PATH=`dirname ${DATA_BASE_PATH}`
+    local CON_ID=`docker create -ti -p 80:${PORT} -e WECHAT_SECRET="${WECHAT_SECRET_INPUT}" ${DOCKER_IMG_NAME} -v ${DATA_BASE_PATH}:/database /root/deploy.sh`
     docker cp $0 ${CON_ID}:/root/
     docker cp ${GAME_DELIVER} ${CON_ID}:/root/
     docker start -ai ${CON_ID}
