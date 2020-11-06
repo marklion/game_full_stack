@@ -60,14 +60,3 @@ table_created_resp game_rest::proc_create_table()
     return ret;
 }
 
-std::string game_rest::proc_enter_table(const enter_table_req& text)
-{
-    std::string ret = "failed";
-
-    if (game_api_enter_table(text.ssid, text.table_no))
-    {
-        ret = "success";
-    }
-
-    return ret;
-}

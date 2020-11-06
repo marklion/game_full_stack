@@ -28,16 +28,18 @@ game_table *game_table::get_table(int _table_no)
     return g_table_map[_table_no];
 }
 
-bool game_table::add_user_in(const std::string &_ssid) 
+void game_table::add_watch_user(const std::string &_ssid) 
 {
-    bool ret = false;
+    g_log.log("user:" + _ssid + " watching table " + std::to_string(m_table_no));
+    m_watching_users.push_back(_ssid);
+}
 
-    if (game_mng_add_user_in_table(_ssid, m_table_no))
-    {
-        g_log.log("store user:" + _ssid + " into table " + std::to_string(m_table_no));
-        m_users.push_back(_ssid);
-        ret = true;
-    }
-
-    return ret;
+void game_table::del_watch_user(const std::string &_ssid)
+{
+    g_log.log("user " + _ssid + " leave table" + std::to_string(m_table_no));
+    m_watching_users.remove(_ssid);
+}
+std::list<std::string> &game_table::getall_watch_user()
+{
+    return m_watching_users;
 }

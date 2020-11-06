@@ -1,5 +1,13 @@
 <template>
-  <div>{{table_no}}</div>
+    <div >
+        <div v-if="took_by_other">
+            网络断开，请刷新重试
+        </div>
+        <div v-else>
+            {{table_no}}
+        </div>
+    </div>
+
 </template>
 
 <script>
@@ -8,7 +16,8 @@ export default {
     name: 'Table',
     data: function() {
         return {
-            table_no: 0
+            table_no: 0,
+            took_by_other: false
         }
     },
     methods: {
@@ -34,7 +43,7 @@ export default {
         }
         this.game_ws.onclose = function(evt) {
             console.log("web socket closed" + evt);
-            vue_this.$router.push({name:'Home'});
+            vue_this.took_by_other = true;
         }
         this.game_ws.onerror = function(evt) {
             console.log('web socket error' + evt);
@@ -51,6 +60,7 @@ export default {
                     case 0:
                         var send_data = new messages.sync_session();
                         send_data.setSession(vue_this.$cookies.get('ssid'));
+                        send_data.setTableNo(vue_this.table_no);
                         vue_this.send_via_websocket(0, send_data);
                         break;
                     default:

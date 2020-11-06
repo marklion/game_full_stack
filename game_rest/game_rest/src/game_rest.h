@@ -23,10 +23,6 @@ struct table_created_resp {
     int table_no;
 };
 
-struct enter_table_req {
-    std::string ssid;
-    int table_no;
-};
 
 //! Dummy description for the service
 /*! Some detailed description of the service */
@@ -67,10 +63,6 @@ public:
     // *location: /create_table
     // *method: GET
     table_created_resp proc_create_table();
-
-    // *method: POST
-    // *location: /enter_table
-    std::string proc_enter_table(const enter_table_req& text);
 };
 
 

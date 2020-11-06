@@ -4,6 +4,7 @@
 #include <curl/curl.h>
 #include "../game_api/game_api.h"
 #include "game_table.h"
+#include <algorithm>
 
 static tdf_log g_log("game manager");
 
@@ -83,6 +84,7 @@ public:
     std::string m_upid;
     std::string m_chrct;
     int m_belong_table = -1;
+    int m_belong_seat = -1;
     bool add_cash(int _cash) {
         m_total_cash += _cash;
         game_database_update_cash(m_upid, m_total_cash);
@@ -185,6 +187,7 @@ static google::protobuf::Message *proc_get_user_info(game_msg_type _type, const 
         pret->set_user_logo(psession->m_logo);
         pret->set_user_cash(psession->m_total_cash);
         pret->set_table_no(psession->m_belong_table);
+        pret->set_seat_no(psession->m_belong_seat);
     }
 
     *_out_type = game_msg_type_get_user_info_resp;
@@ -248,26 +251,7 @@ static google::protobuf::Message *proc_create_table(game_msg_type _type, const s
     return pret;
 }
 
-static google::protobuf::Message *proc_enter_table(game_msg_type _type, const std::string &_data, const std::string &_from, game_msg_type *_out_type)
-{
-    auto *pret = new game::game_mng_result();
-    pret->set_result(false);
 
-    game::enter_table_req req;
-    req.ParseFromString(_data);
-
-    auto ssid = req.ssid();
-    auto table_no = req.table_no();
-    auto ptable = game_table::get_table(table_no);
-    if (nullptr != ptable)
-    {
-        auto add_ret = ptable->add_user_in(ssid);
-        pret->set_result(add_ret);
-    }
-
-    *_out_type = game_msg_type_mng_result;
-    return pret;
-}
 static game_mng_msg_proc_pf g_msg_procs[game_msg_type_max] = {0};
 
 void game_mng_register_func()
@@ -277,7 +261,6 @@ void game_mng_register_func()
     g_msg_procs[game_msg_type_get_user_info] = proc_get_user_info;
     g_msg_procs[game_msg_type_logoff_user] = proc_logoff_user;
     g_msg_procs[game_msg_type_add_cash] = proc_add_cash;
-    g_msg_procs[game_msg_type_enter_table] = proc_enter_table;
 }
 
 void game_mng_proc(std::string &_chrct, game_msg_type _type, const std::string &_data)
@@ -295,7 +278,7 @@ void game_mng_proc(std::string &_chrct, game_msg_type _type, const std::string &
     }
 }
 
-bool game_mng_add_user_in_table(const std::string &_ssid, int _table_no)
+bool game_mng_user_seat_in_table(const std::string &_ssid, int _table_no)
 {
     bool ret = false;
 
@@ -309,15 +292,32 @@ bool game_mng_add_user_in_table(const std::string &_ssid, int _table_no)
     return ret;
 }
 
-bool game_mng_set_user_connect(const std::string &_ssid, const std::string &_chrct)
+bool game_mng_set_user_connect(const std::string &_ssid, const std::string &_chrct, int _table_no)
 {
     bool ret = false;
 
     auto psession = game_session::get_session(_ssid);
-    if (psession && psession->m_chrct.empty())
+    if (psession)
     {
-        psession->m_chrct = _chrct;
-        ret = true;
+        if (!psession->m_chrct.empty())
+        {
+            tdf_main::get_inst().close_data(psession->m_chrct);
+        }
+        auto ptable = game_table::get_table(_table_no);
+        if (ptable)
+        {
+            if (psession->m_belong_table == -1)
+            {
+                ptable->add_watch_user(_ssid);
+                psession->m_belong_table = _table_no;
+            }
+
+            if (psession->m_belong_table == _table_no)
+            {
+                psession->m_chrct = _chrct;
+                ret = true;
+            }
+        }
     }
 
     return ret;
@@ -327,6 +327,15 @@ void game_mng_set_user_disconnect(const std::string &_ssid)
     auto psession = game_session::get_session(_ssid);
     if (psession)
     {
+        if (psession->m_belong_seat == -1)
+        {
+            auto ptable = game_table::get_table(psession->m_belong_table);
+            if (ptable)
+            {
+                ptable->del_watch_user(_ssid);
+            }
+            psession->m_belong_table = -1;
+        }
         psession->m_chrct = "";
     }
 }

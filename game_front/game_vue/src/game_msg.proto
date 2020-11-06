@@ -3,6 +3,7 @@ package game;
 
 message sync_session{
     string session=1;
+    int32 table_no = 2;
 }
 
 message game_mng_result {
@@ -23,6 +24,7 @@ message user_info_resp {
     string user_logo = 2;
     int32 user_cash = 3;
     int32 table_no = 4;
+    int32 seat_no = 5;
 }
 
 message add_cash_req {
@@ -35,7 +37,3 @@ message create_table_resp {
     int32 table_no = 2;
 }
 
-message enter_table_req {
-    string ssid = 1;
-    int32 table_no = 2;
-}

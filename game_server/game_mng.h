@@ -10,8 +10,8 @@ struct game_mng_resp {
 };
 void game_mng_proc(std::string &_chrct, game_msg_type _type, const std::string &_data);
 void game_mng_register_func();
-bool game_mng_add_user_in_table(const std::string &_ssid, int _table_no);
-bool game_mng_set_user_connect(const std::string &_ssid, const std::string &_chrct);
+bool game_mng_user_seat_in_table(const std::string &_ssid, int _table_no);
+bool game_mng_set_user_connect(const std::string &_ssid, const std::string &_chrct, int _table_no);
 void game_mng_set_user_disconnect(const std::string &_ssid);
 
 

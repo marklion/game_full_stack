@@ -2,9 +2,12 @@
 #include <map>
 #include <arpa/inet.h>
 #include "game_mng.h"
+#include "game_table.h"
 
 tdf_log g_log("game entry");
 
+class game_channel;
+static std::map<std::string, game_channel *> g_channel_map;
 class game_channel
 {
     enum channel_status
@@ -68,7 +71,7 @@ public:
             if (m_status == init)
             {
                 auto tmp_session = msg.session();
-                if (game_mng_set_user_connect(tmp_session, m_chrct))
+                if (game_mng_set_user_connect(tmp_session, m_chrct, msg.table_no()))
                 {
                     m_status = bound;
                     m_session = tmp_session;
@@ -96,6 +99,8 @@ public:
     void recv_helper(const std::string &_data)
     {
         m_recv_buff.append(_data);
+        
+        std::string self_chrct = m_chrct;
 
         while (m_recv_buff.length() >= 2 * sizeof(int))
         {
@@ -105,6 +110,10 @@ public:
             if ((data_len + 2 * sizeof(int)) <= m_recv_buff.length())
             {
                 proc_data(data_type, std::string(m_recv_buff.begin() + 2 * sizeof(int), m_recv_buff.begin() + data_len + 2 * sizeof(int)));
+                if (nullptr == g_channel_map[self_chrct])
+                {
+                    break;
+                }
                 m_recv_buff.erase(0, data_len + 2 * sizeof(int));
             }
         }
@@ -118,7 +127,6 @@ public:
     }
 };
 
-static std::map<std::string, game_channel *> g_channel_map;
 
 void game_entry_proc_new_connect(const std::string &_chrct)
 {

@@ -155,6 +155,7 @@ game_api_user_info_resp game_api_get_user_info(const std::string &_ssid)
             ret.user_logo = resp.user_logo();
             ret.user_cash = resp.user_cash();
             ret.table_no = resp.table_no();
+            ret.seat_no = resp.seat_no();
         }
     }
     delete presult;
@@ -194,29 +195,6 @@ bool game_api_add_cash(const std::string &_ssid, int _cash)
 
     g_log.log("start to add cash");
     auto presult = game_api_send_recv(game_msg_type_add_cash, req.SerializeAsString());
-    if (presult->m_type == game_msg_type_mng_result)
-    {
-        game::game_mng_result resp;
-        resp.ParseFromString(presult->m_data);
-        if (resp.result())
-        {
-            ret = true;
-        }
-    }
-    delete presult;
-
-    return ret;
-}
-
-bool game_api_enter_table(const std::string &_ssid, int _table_no)
-{
-    bool ret = false;
-    game::enter_table_req req;
-
-    req.set_ssid(_ssid);
-    req.set_table_no(_table_no);
-
-    auto presult = game_api_send_recv(game_msg_type_enter_table, req.SerializeAsString());
     if (presult->m_type == game_msg_type_mng_result)
     {
         game::game_mng_result resp;

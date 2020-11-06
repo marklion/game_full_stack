@@ -68,7 +68,7 @@ export default {
       user_logo: '',
       user_cash: '',
       is_login: false,
-      added_cash: 1000
+      added_cash: 1000,
     };
   },
   methods: {
@@ -131,24 +131,13 @@ export default {
         console.log(err);
       });
     },
-    enter_table_req: function(_table_no) {
-      var vue_this = this;
-      this.$axios.post('/game_rest/enter_table', {text:{ssid:this.$cookies.get('ssid'), table_no:_table_no}}).then(function(resp) {
-        if (resp.data.result == "success")
-        {
-          vue_this.$router.push({path: '/table/' + _table_no});
-        }
-      }).catch(function(err) {
-        console.log(err);
-      });
-    },
     create_table :function() {
       var vue_this = this;
       this.$axios.get('/game_rest/create_table').then(function(resp) {
         if ("success" == resp.data.result.created)
         {
           console.log("table no is" + resp.data.result.table_no);
-          vue_this.enter_table_req(resp.data.result.table_no);
+          vue_this.$router.push({path: '/table/' + resp.data.result.table_no});
         }
       }).catch(function(err) {
         console.log(err);

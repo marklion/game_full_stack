@@ -6,9 +6,11 @@
 
 class game_table {
 public:
-    std::list<std::string> m_users; 
+    std::list<std::string> m_watching_users; 
     game_table();
-    bool add_user_in(const std::string &_ssid);
+    void add_watch_user(const std::string &_ssid);
+    void del_watch_user(const std::string &_ssid);
+    std::list<std::string> &getall_watch_user();
     int m_table_no = -1;
     static game_table *create_game_table();
     static game_table *get_table(int _table_no);
