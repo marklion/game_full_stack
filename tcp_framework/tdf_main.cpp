@@ -376,14 +376,15 @@ void tdf_main::send_data(const std::string &_conn_chrct, const std::string &_dat
 
 void tdf_main::close_data(const std::string &_charct)
 {
-    auto channel = g_data_map[_charct];
+    std::string tmp_chrct(_charct);
+    auto channel = g_data_map[tmp_chrct];
     if (nullptr != channel)
     {
         if (channel->m_hup_hook)
         {
-            channel->m_hup_hook(_charct);
+            channel->m_hup_hook(tmp_chrct);
         }
-        g_data_map.erase(_charct);
+        g_data_map.erase(tmp_chrct);
         epoll_ctl(g_epoll_fd, EPOLL_CTL_DEL, channel->m_fd, nullptr);
         g_pause_epoll = true;
         delete channel;

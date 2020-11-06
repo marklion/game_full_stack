@@ -48,7 +48,6 @@ public:
                 game_channel *pthis = (game_channel *)_private;
                 if (pthis->m_status != bound)
                 {
-                    tdf_main::get_inst().stop_timer(pthis->session_sync_timer_handle);
                     std::string chrct = pthis->m_chrct;
                     tdf_main::get_inst().close_data(chrct);
                 }
@@ -68,8 +67,17 @@ public:
             msg.ParseFromString(_data);
             if (m_status == init)
             {
-                m_session = msg.session();
-                m_status = bound;
+                auto tmp_session = msg.session();
+                if (game_mng_set_user_connect(tmp_session, m_chrct))
+                {
+                    m_status = bound;
+                    m_session = tmp_session;
+                }
+                else
+                {
+                    tdf_main::get_inst().close_data(m_chrct);
+                    return;
+                }
             }
             else
             {
@@ -105,6 +113,8 @@ public:
     game_channel(const std::string &_chrct) : m_chrct(_chrct) {}
     void proc_hup()
     {
+        tdf_main::get_inst().stop_timer(session_sync_timer_handle);
+        game_mng_set_user_disconnect(m_session);
     }
 };
 

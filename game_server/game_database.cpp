@@ -68,7 +68,7 @@ int game_database_fetch_cash(const std::string &_upid)
 void game_database_update_cash(const std::string &_upid, int _cash)
 {
     sqlite3 *db = nullptr;
-    std::string update_cmd = "update user_cash set cash = " + std::to_string(_cash) + "where upid == '" + _upid + "';";
+    std::string update_cmd = "update user_cash set cash = " + std::to_string(_cash) + " where upid == '" + _upid + "';";
 
     auto sql_ret = sqlite3_open(GAME_DATA_BASE_SQLITE_NAME, &db);
     if (sql_ret == 0 && nullptr != db)

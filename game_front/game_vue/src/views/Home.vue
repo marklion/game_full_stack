@@ -35,6 +35,17 @@
               <el-button type="primary" @click="add_cash">加钱</el-button>
             </el-col>
           </el-row>
+          <el-row :gutter="20">
+            <el-col :span="8">
+              <el-button type="primary" @click="create_table">创建牌桌</el-button>
+            </el-col>
+            <el-col :span="8">
+              <el-button type="primary" @click="enter_random">随机入桌</el-button>
+            </el-col>
+            <el-col :span="8">
+              <el-button type="primary" @click="enter_table">按号入桌</el-button>
+            </el-col>
+          </el-row>
         </el-main>
         <el-footer>
           <el-button type="danger" @click="logoff">退出登录</el-button>
@@ -75,6 +86,11 @@ export default {
           vue_this.user_logo = "data:image/jpg;base64," + resp.data.result.user_logo;
           vue_this.user_cash = resp.data.result.user_cash;
           vue_this.is_login = true;
+          var belong_table = resp.data.result.table_no;
+          if (belong_table != -1)
+          {
+            vue_this.$router.push({path: '/table/' + belong_table});
+          }
         }
         console.log(vue_this);
       }).catch(function(err) {
@@ -114,6 +130,35 @@ export default {
       }).catch(function(err) {
         console.log(err);
       });
+    },
+    enter_table_req: function(_table_no) {
+      var vue_this = this;
+      this.$axios.post('/game_rest/enter_table', {text:{ssid:this.$cookies.get('ssid'), table_no:_table_no}}).then(function(resp) {
+        if (resp.data.result == "success")
+        {
+          vue_this.$router.push({path: '/table/' + _table_no});
+        }
+      }).catch(function(err) {
+        console.log(err);
+      });
+    },
+    create_table :function() {
+      var vue_this = this;
+      this.$axios.get('/game_rest/create_table').then(function(resp) {
+        if ("success" == resp.data.result.created)
+        {
+          console.log("table no is" + resp.data.result.table_no);
+          vue_this.enter_table_req(resp.data.result.table_no);
+        }
+      }).catch(function(err) {
+        console.log(err);
+      });
+    },
+    enter_random: function() {
+
+    },
+    enter_table: function() {
+
     },
   },
   beforeMount: function() {

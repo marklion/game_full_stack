@@ -22,9 +22,20 @@ message user_info_resp {
     string user_name = 1;
     string user_logo = 2;
     int32 user_cash = 3;
+    int32 table_no = 4;
 }
 
 message add_cash_req {
     string ssid = 1;
     int32 cash = 2;
+}
+
+message create_table_resp {
+    bool result = 1;
+    int32 table_no = 2;
+}
+
+message enter_table_req {
+    string ssid = 1;
+    int32 table_no = 2;
 }

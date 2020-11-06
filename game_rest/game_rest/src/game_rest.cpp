@@ -23,6 +23,7 @@ user_info_resp game_rest::proc_get_user_info(const std::string ssid)
     Base64::Encode(api_res.user_name, &(ret.user_name));
     ret.user_logo = api_res.user_logo;
     ret.user_cash = api_res.user_cash;
+    ret.table_no = api_res.table_no;
 
     return ret;
 }
@@ -41,5 +42,32 @@ std::string game_rest::proc_add_cash(const add_cash_req& text)
         ret = "success";
     }
     
+    return ret;
+}
+
+
+table_created_resp game_rest::proc_create_table()
+{
+    table_created_resp ret;
+
+    auto table_no = game_api_create_table();
+    if (table_no >= 0)
+    {
+        ret.created = "success";
+        ret.table_no = table_no;
+    }
+
+    return ret;
+}
+
+std::string game_rest::proc_enter_table(const enter_table_req& text)
+{
+    std::string ret = "failed";
+
+    if (game_api_enter_table(text.ssid, text.table_no))
+    {
+        ret = "success";
+    }
+
     return ret;
 }

@@ -10,11 +10,22 @@ struct user_info_resp {
     std::string user_name;
     std::string user_logo;
     int user_cash;
+    int table_no;
 };
 
 struct add_cash_req {
     std::string ssid;
     int cash;
+};
+
+struct table_created_resp {
+    std::string created;
+    int table_no;
+};
+
+struct enter_table_req {
+    std::string ssid;
+    int table_no;
 };
 
 //! Dummy description for the service
@@ -52,6 +63,14 @@ public:
     // *method: POST
     // *location: /add_cash
     std::string proc_add_cash(const add_cash_req& text);
+
+    // *location: /create_table
+    // *method: GET
+    table_created_resp proc_create_table();
+
+    // *method: POST
+    // *location: /enter_table
+    std::string proc_enter_table(const enter_table_req& text);
 };
 
 
