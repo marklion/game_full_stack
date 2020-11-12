@@ -23,6 +23,11 @@ struct table_created_resp {
     int table_no;
 };
 
+struct qq_login_req {
+    std::string openid;
+    std::string acctok;
+};
+
 
 //! Dummy description for the service
 /*! Some detailed description of the service */
@@ -46,9 +51,12 @@ public:
     //
     std::string echo(const std::string& text);
 
-    // *location: /login
+    // *location: /wechat_login
     // *method: POST
-    std::string proc_login(const std::string code);
+    std::string proc_wechat_login(const std::string code);
+    // *location: /qq_login
+    // *method: POST
+    std::string proc_qq_login(const qq_login_req& text);
     // *location: /userinfo/{ssid}
     // *method: GET
     user_info_resp proc_get_user_info(const std::string ssid);

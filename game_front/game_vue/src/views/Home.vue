@@ -1,8 +1,19 @@
 <template>
   <div class="home">
-    <el-button v-if="!is_login" type="success" round @click="nav_to_wechat_login">
-      微信登陆
-    </el-button>
+    <div v-if="!is_login">
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-button  type="success" round @click="nav_to_wechat_login">
+            微信登陆
+          </el-button>
+        </el-col>
+        <el-col :span="12">
+          <el-button  type="primary" round @click="nav_to_qq_login">
+            QQ登陆
+          </el-button>
+        </el-col>
+      </el-row>
+    </div>
     <div v-else>
       <el-container>
         <el-header>
@@ -73,7 +84,13 @@ export default {
   },
   methods: {
     nav_to_wechat_login: function() {
-      window.location.href = "https://open.weixin.qq.com/connect/qrconnect?appid=wx987b51617d4be3ae&redirect_uri=http%3a%2f%2fwww.d8sis.cn&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect";
+      window.location.href = "https://open.weixin.qq.com/connect/qrconnect?appid=wx987b51617d4be3ae&redirect_uri=http%3a%2f%2fwww.d8sis.cn%2fwechatlogin&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect";
+    },
+    nav_to_qq_login: function() {
+      QC.Login.showPopup({
+        appId:"101912803",
+        redirectURI:"http://www.d8sis.cn/qqlogin"
+     });
     },
     get_cur_user_info: function() {
       var vue_this = this;
@@ -151,19 +168,7 @@ export default {
     },
   },
   beforeMount: function() {
-    var vue_this = this;
     this.get_cur_user_info();
-    if (this.$route.query.code)
-    {
-      this.axios.post('/game_rest/login', {code:this.$route.query.code}).then(
-        function(resp) {
-          vue_this.$cookies.set("ssid", resp.data.result);
-          window.location.replace('/');
-        }
-      ).catch(function(err) {
-        console.log(err);
-      });
-    }
   }
 }
 </script>

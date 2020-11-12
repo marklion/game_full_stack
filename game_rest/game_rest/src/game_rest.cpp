@@ -10,9 +10,14 @@ std::string game_rest::echo(const std::string& text)
 }
 
 
-std::string game_rest::proc_login(const std::string code)
+std::string game_rest::proc_wechat_login(const std::string code)
 {
     return game_api_user_login(code);
+}
+
+std::string game_rest::proc_qq_login(const qq_login_req& text)
+{
+    return game_api_user_login(text.openid, text.acctok);
 }
 
 user_info_resp game_rest::proc_get_user_info(const std::string ssid)

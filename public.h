@@ -11,7 +11,7 @@ enum game_msg_type
     game_msg_type_sync_session,
     game_msg_type_mng_result,
     game_msg_type_create_table,
-    game_msg_type_user_login,
+    game_msg_type_wechat_login,
     game_msg_type_user_login_resp,
     game_msg_type_get_user_info,
     game_msg_type_get_user_info_resp,
@@ -19,6 +19,8 @@ enum game_msg_type
     game_msg_type_add_cash,
     game_msg_type_create_table_resp,
     game_msg_type_enter_table,
+    game_msg_type_table_info_sync,
+    game_msg_type_qq_login_req,
     game_msg_type_max
 };
 

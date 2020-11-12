@@ -4,7 +4,22 @@
             网络断开，请刷新重试
         </div>
         <div v-else>
-            {{table_no}}
+            <el-container>
+                <el-header>
+                    {{table_no}}
+                </el-header>
+                <el-main>
+                    <el-row :gutter="20">
+                        <el-col :span="8">
+                            <EachPlayer :seat_no="(self_seat + 4)%6" :name="a"></EachPlayer>
+                        </el-col>
+                    </el-row>
+                </el-main>
+                <el-footer>
+
+                </el-footer>
+            </el-container>
+
         </div>
     </div>
 
@@ -12,12 +27,14 @@
 
 <script>
 import messages from '../game_msg_pb'
+import EachPlayer from '@/components/EachPlayer.vue'
 export default {
     name: 'Table',
     data: function() {
         return {
             table_no: 0,
-            took_by_other: false
+            took_by_other: false,
+            self_seat:0
         }
     },
     methods: {
@@ -62,6 +79,10 @@ export default {
                         send_data.setSession(vue_this.$cookies.get('ssid'));
                         send_data.setTableNo(vue_this.table_no);
                         vue_this.send_via_websocket(0, send_data);
+                        break;
+                    case 11:
+                        var table_info_msg = messages.table_info_sync.deserializeBinary(from_server_data.slice(8));
+                        vue_this.table_no = table_info_msg.getTableNo();
                         break;
                     default:
                         break;

@@ -8,6 +8,10 @@
 
 static tdf_log g_log("game manager");
 
+struct game_mng_qqlogin_req {
+    std::string openid;
+    std::string acctok;
+};
 std::string game_mng_gen_ssid()
 {
     uuid_t out;
@@ -75,6 +79,26 @@ class game_session
             Base64::Encode(logo_content, &m_logo);
         }
     }
+    void get_info_from_qq(const std::string &_upid, const std::string &_acc_tok)
+    {
+        std::string req = "https://graph.qq.com/user/get_user_info?access_token=" + _acc_tok + "&oauth_consumer_key=101912803&openid=" + _upid;
+        auto in_buff = game_api_wechat_rest_req(req);
+
+        g_log.log("user infor:" + in_buff);
+        neb::CJsonObject oJson(in_buff);
+
+        if (oJson.KeyExist("ret") && std::to_string(0) == oJson("ret"))
+        {
+            m_name = oJson("nickname");
+            auto logo_path = oJson("figureurl_qq_1");
+            auto logo_content = game_api_wechat_rest_req(logo_path);
+            Base64::Encode(logo_content, &m_logo);
+        }
+        else
+        {
+            g_log.err("qq login failed");
+        }
+    }
 
 public:
     std::string m_session;
@@ -97,6 +121,7 @@ public:
         {
             m_session_map.erase(_session);
             m_upid_session_map.erase(psession->m_upid);
+            tdf_main::get_inst().close_data(psession->m_chrct);
             delete psession;
         }
     }
@@ -118,12 +143,26 @@ public:
 
         if (true == game_mng_getupid_acctok(_code, &upid, &acc_tok))
         {
+            std::string wechat_upid = upid + "wechat";
             psession = new game_session();
-            psession->m_total_cash = game_database_fetch_cash(upid);
+            psession->m_total_cash = game_database_fetch_cash(wechat_upid);
             psession->get_info_from_wechat(upid, acc_tok);
             psession->m_session = game_mng_gen_ssid();
-            psession->m_upid = upid;
+            psession->m_upid = wechat_upid;
         }
+        return psession;
+    }
+    static game_session *create_session(const game_mng_qqlogin_req *_qq_req)
+    {
+        game_session *psession = nullptr;
+        auto qq_upid = _qq_req->openid + "qq";
+        auto acctok = _qq_req->acctok;
+
+        psession = new game_session();
+        psession->m_total_cash = game_database_fetch_cash(qq_upid);
+        psession->get_info_from_qq(_qq_req->openid, _qq_req->acctok);
+        psession->m_session = game_mng_gen_ssid();
+        psession->m_upid = qq_upid;
         return psession;
     }
     static game_session *get_session(const std::string &_ssid) {
@@ -162,6 +201,36 @@ static void game_mng_auth_login(const std::string &_code, const std::string &_fr
     },pcode, _from);
 }
 
+
+static void game_mng_auth_login(const std::string &_openid, const std::string &_acctok, const std::string &_from)
+{
+    auto pqqlogin_req = new game_mng_qqlogin_req();
+    pqqlogin_req->openid = _openid;
+    pqqlogin_req->acctok = _acctok;
+    
+    tdf_main::get_inst().Async_to_workthread([](void *_private, const std::string &_chrct) -> void {
+        auto pqqlogin_req = (game_mng_qqlogin_req *)_private;
+        auto psession = game_session::create_session(pqqlogin_req);
+        delete pqqlogin_req;
+        tdf_main::get_inst().Async_to_mainthread([](void *_private, const std::string &_chrct) -> void {
+            game::user_login_resp resp;
+            auto psession = (game_session *)_private;
+            if (psession == nullptr)
+            {
+                g_log.err("create session failred");
+                resp.set_result(false);
+            }
+            else
+            {
+                game_session::register_session(psession);
+                resp.set_result(true);
+                resp.set_session(psession->m_session);
+            }
+            game_entry_send_data(_chrct, game_msg_type_user_login_resp, resp.SerializeAsString());
+
+        },psession, _chrct);
+    },pqqlogin_req, _from);
+}
 static google::protobuf::Message *proc_user_login(game_msg_type _type, const std::string &_data, const std::string &_from, game_msg_type *_out_type)
 {
     game::user_login req;
@@ -172,6 +241,18 @@ static google::protobuf::Message *proc_user_login(game_msg_type _type, const std
     game_mng_auth_login(req.code(), _from);
 
     g_log.log("finish proc user login");
+    return pret;
+}
+
+static google::protobuf::Message *proc_user_qq_login(game_msg_type _type, const std::string &_data, const std::string &_from, game_msg_type *_out_type)
+{
+    game::user_qq_login req;
+    game::user_login_resp *pret = nullptr;
+    req.ParseFromString(_data);
+
+    game_mng_auth_login(req.openid(), req.acctok(), _from);
+
+    g_log.log("panding proc user login");
     return pret;
 }
 
@@ -257,7 +338,8 @@ static game_mng_msg_proc_pf g_msg_procs[game_msg_type_max] = {0};
 void game_mng_register_func()
 {
     g_msg_procs[game_msg_type_create_table] = proc_create_table;
-    g_msg_procs[game_msg_type_user_login] = proc_user_login;
+    g_msg_procs[game_msg_type_wechat_login] = proc_user_login;
+    g_msg_procs[game_msg_type_qq_login_req] = proc_user_qq_login;
     g_msg_procs[game_msg_type_get_user_info] = proc_get_user_info;
     g_msg_procs[game_msg_type_logoff_user] = proc_logoff_user;
     g_msg_procs[game_msg_type_add_cash] = proc_add_cash;

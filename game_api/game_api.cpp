@@ -97,7 +97,33 @@ std::string game_api_user_login(const std::string &_code)
     req.set_code(_code);
     g_log.log(req.code());
 
-    auto presult = game_api_send_recv(game_msg_type_user_login, req.SerializeAsString());
+    auto presult = game_api_send_recv(game_msg_type_wechat_login, req.SerializeAsString());
+    if (presult->m_type == game_msg_type_user_login_resp)
+    {
+        game::user_login_resp resp;
+        resp.ParseFromString(presult->m_data);
+        if (resp.result())
+        {
+            ret = resp.session();
+        }
+
+    }
+    delete presult;
+
+    return ret;
+}
+
+std::string game_api_user_login(const std::string &_openid, const std::string &acctok)
+{
+    std::string ret;
+    game::user_qq_login req;
+
+    req.set_openid(_openid);
+    req.set_acctok(acctok);
+
+    g_log.log("qq user login openid:%s access token: %", _openid.c_str(), acctok.c_str());
+
+    auto presult = game_api_send_recv(game_msg_type_qq_login_req, req.SerializeAsString());
     if (presult->m_type == game_msg_type_user_login_resp)
     {
         game::user_login_resp resp;

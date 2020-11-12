@@ -6,6 +6,14 @@
 
 tdf_log g_log("game entry");
 
+static void game_entry_sync_table_info(const std::string _chrct, game_table *_ptable)
+{
+    game::table_info_sync msg;
+    msg.set_table_no(_ptable->m_table_no);
+    game_entry_send_data(_chrct, game_msg_type_table_info_sync, msg.SerializeAsString());
+    g_log.log("sync table info to %s", _chrct.c_str());
+}
+
 class game_channel;
 static std::map<std::string, game_channel *> g_channel_map;
 class game_channel
@@ -74,6 +82,11 @@ public:
                 if (game_mng_set_user_connect(tmp_session, m_chrct, msg.table_no()))
                 {
                     m_status = bound;
+                    auto ptable = game_table::get_table(msg.table_no());
+                    if (ptable)
+                    {
+                        game_entry_sync_table_info(m_chrct, ptable);
+                    }
                     m_session = tmp_session;
                 }
                 else

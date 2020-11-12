@@ -1,6 +1,7 @@
 #if !defined(_TDF_INCLUDE_H_)
 #define _TDF_INCLUDE_H_
 #include <string>
+#include <stdarg.h>
 #include <sys/types.h>          
 #include <sys/socket.h>
 #include <unistd.h>
@@ -87,10 +88,14 @@ public:
     {
         output_2_fd(_log, m_log_stdout);
     }
-    void log(const char *_log)
+    void log(const char *_log, ...)
     {
-        std::string msg(_log);
-        output_2_fd(msg, m_log_stdout);
+        va_list vl;
+        va_start(vl, _log);
+        char tmpbuff[256];
+        vsnprintf(tmpbuff, sizeof(tmpbuff), _log, vl);
+        va_end(vl);
+        output_2_fd(tmpbuff, m_log_stdout);
     }
     void log_package(const char *_data, int _len) {
         char tmp[4] = {0};
@@ -106,10 +111,14 @@ public:
     {
         output_2_fd(_log, m_log_stderr);
     }
-    void err(const char *_log)
+    void err(const char *_log, ...)
     {
-        std::string msg(_log);
-        output_2_fd(msg, m_log_stderr);
+        va_list vl;
+        va_start(vl, _log);
+        char tmpbuff[256];
+        vsnprintf(tmpbuff, sizeof(tmpbuff), _log, vl);
+        va_end(vl);
+        output_2_fd(tmpbuff, m_log_stderr);
     }
 };
 
