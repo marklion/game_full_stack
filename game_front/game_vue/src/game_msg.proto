@@ -54,3 +54,8 @@ message table_info_sync {
     repeated table_seat_player players = 2;
 }
 
+message player_sit_down_req {
+    int32 seat_no = 1;
+    int32 carry_cash = 2;
+}
+

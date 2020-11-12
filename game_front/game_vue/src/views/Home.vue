@@ -63,6 +63,7 @@
         </el-footer>
       </el-container>
     </div>
+    <el-link type="info" href="http://beian.miit.gov.cn" id="beian">京ICP备2020039126号-1</el-link>
   </div>
 </template>
 
@@ -200,5 +201,10 @@ export default {
         width: 100%;
         padding-left: 4px;
         padding-right: 4px;
+  }
+  #beian {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
   }
 </style>

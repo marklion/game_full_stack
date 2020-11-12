@@ -7,7 +7,7 @@ static int g_increased_no = 0;
 
 static tdf_log g_log("game table");
 
-game_table::game_table()
+game_table::game_table():m_sit_down_players{nullptr}
 {
     m_table_no = g_increased_no++;
 }

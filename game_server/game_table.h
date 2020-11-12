@@ -3,10 +3,12 @@
 
 #include <string>
 #include <list>
+#include "game_logic.h"
 
 class game_table {
 public:
     std::list<std::string> m_watching_users; 
+    game_player *m_sit_down_players[6];
     game_table();
     void add_watch_user(const std::string &_ssid);
     void del_watch_user(const std::string &_ssid);

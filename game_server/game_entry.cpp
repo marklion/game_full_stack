@@ -3,6 +3,7 @@
 #include <arpa/inet.h>
 #include "game_mng.h"
 #include "game_table.h"
+#include "game_logic.h"
 
 tdf_log g_log("game entry");
 
@@ -26,10 +27,13 @@ class game_channel
     };
 
 public:
+
+    typedef void (game_channel::*data_proc_pf)(game_msg_type _type, const std::string &_data);
     std::string m_recv_buff;
     std::string m_chrct;
     channel_status m_status = init;
     std::string m_session;
+    data_proc_pf m_proc_pfs[game_msg_type_max];
 
     int session_sync_timer_handle = -1;
     void send_helper(game_msg_type _type, const std::string &_data)
@@ -70,43 +74,48 @@ public:
             },
             this);
     }
-    virtual void proc_data(game_msg_type _type, const std::string &_data)
+    void proc_data_sync_session(game_msg_type _type, const std::string &_data)
     {
-        if (_type == game_msg_type_sync_session)
+        game::sync_session msg;
+        msg.ParseFromString(_data);
+        if (m_status == init)
         {
-            game::sync_session msg;
-            msg.ParseFromString(_data);
-            if (m_status == init)
+            auto tmp_session = msg.session();
+            if (game_mng_set_user_connect(tmp_session, m_chrct, msg.table_no()))
             {
-                auto tmp_session = msg.session();
-                if (game_mng_set_user_connect(tmp_session, m_chrct, msg.table_no()))
+                m_status = bound;
+                auto ptable = game_table::get_table(msg.table_no());
+                if (ptable)
                 {
-                    m_status = bound;
-                    auto ptable = game_table::get_table(msg.table_no());
-                    if (ptable)
-                    {
-                        game_entry_sync_table_info(m_chrct, ptable);
-                    }
-                    m_session = tmp_session;
+                    game_entry_sync_table_info(m_chrct, ptable);
                 }
-                else
-                {
-                    tdf_main::get_inst().close_data(m_chrct);
-                    return;
-                }
+                m_session = tmp_session;
             }
             else
             {
-                if (m_session != msg.session())
-                {
-                    tdf_main::get_inst().close_data(m_chrct);
-                    return;
-                }
-                else
-                {
-                    m_status = bound;
-                }
+                tdf_main::get_inst().close_data(m_chrct);
+                return;
             }
+        }
+        else
+        {
+            if (m_session != msg.session())
+            {
+                tdf_main::get_inst().close_data(m_chrct);
+                return;
+            }
+            else
+            {
+                m_status = bound;
+            }
+        }
+    }
+    virtual void proc_data(game_msg_type _type, const std::string &_data)
+    {
+        auto proc_pf = m_proc_pfs[_type];
+        if (nullptr != proc_pf)
+        {
+            (this->*proc_pf)(_type, _data);
         }
     }
     void recv_helper(const std::string &_data)
@@ -132,7 +141,9 @@ public:
         }
     }
 
-    game_channel(const std::string &_chrct) : m_chrct(_chrct) {}
+    game_channel(const std::string &_chrct) : m_chrct(_chrct), m_proc_pfs{nullptr} {
+        m_proc_pfs[game_msg_type_sync_session] = &game_channel::proc_data_sync_session;
+    }
     void proc_hup()
     {
         tdf_main::get_inst().stop_timer(session_sync_timer_handle);
