@@ -22,6 +22,8 @@ enum game_msg_type
     game_msg_type_table_info_sync,
     game_msg_type_qq_login_req,
     game_msg_type_player_sit_down,
+    game_msg_type_player_self_info,
+    game_msg_type_player_stand_up,
     game_msg_type_max
 };
 

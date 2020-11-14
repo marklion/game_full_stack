@@ -19,7 +19,6 @@ static int game_database_get_cash(const std::string &_upid)
             *pcash = atoi(argv[0]);
             return 0;
         },&ret, nullptr);
-        g_log.log("get " + _upid + "'s cash:" + std::to_string(ret));
         sqlite3_close(db);
     }
     else

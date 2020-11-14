@@ -95,7 +95,6 @@ std::string game_api_user_login(const std::string &_code)
     game::user_login req;
 
     req.set_code(_code);
-    g_log.log(req.code());
 
     auto presult = game_api_send_recv(game_msg_type_wechat_login, req.SerializeAsString());
     if (presult->m_type == game_msg_type_user_login_resp)
@@ -219,7 +218,6 @@ bool game_api_add_cash(const std::string &_ssid, int _cash)
     req.set_ssid(_ssid);
     req.set_cash(_cash);
 
-    g_log.log("start to add cash");
     auto presult = game_api_send_recv(game_msg_type_add_cash, req.SerializeAsString());
     if (presult->m_type == game_msg_type_mng_result)
     {

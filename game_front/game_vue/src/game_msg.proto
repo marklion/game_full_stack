@@ -47,6 +47,7 @@ message table_seat_player {
     string name = 2;
     int32 total_cash = 3;
     int32 bat_cash = 4;
+    string logo = 5;
 }
 
 message table_info_sync {
@@ -57,5 +58,16 @@ message table_info_sync {
 message player_sit_down_req {
     int32 seat_no = 1;
     int32 carry_cash = 2;
+}
+
+message game_poker_card {
+    int32 color = 1;
+    int32 number = 2;
+}
+
+message player_self_info {
+    int32 seat_no = 1;
+    game_poker_card first_card = 2;
+    game_poker_card second_card = 3;
 }
 

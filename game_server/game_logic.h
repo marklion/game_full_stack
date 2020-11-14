@@ -2,9 +2,25 @@
 #define _GAME_LOGIC_H_
 #include <vector>
 #include "../public.h"
+#include "game_mng.h"
 
 class game_player {
+public:
+    std::string m_ssid;
+    int m_seat_no = -1;
+    int m_total_cash = -1;
+    int m_bat_cash = -1;
+    game_player(const std::string &_ssid, int _seat, int _cash):m_ssid(_ssid),m_seat_no(_seat),m_total_cash(_cash) {}
+    std::string get_name() {
+        return game_mng_get_name(m_ssid);
+    }
+    std::string get_logo() {
+        std::string ret;
 
+        game_mng_get_user_logo(m_ssid, &ret);
+
+        return ret;
+    }
 };
 
 class game_round {

@@ -18,7 +18,6 @@ game_table *game_table::create_game_table()
 
     pret = new game_table();
     g_table_map[pret->m_table_no] = pret;
-    g_log.log("create table: " + std::to_string(pret->m_table_no));
 
     return pret;
 }
@@ -42,4 +41,56 @@ void game_table::del_watch_user(const std::string &_ssid)
 std::list<std::string> &game_table::getall_watch_user()
 {
     return m_watching_users;
+}
+
+bool game_table::add_player(int _seat, game_player *_player)
+{
+    bool ret = false;
+
+    if (_seat < 6 && nullptr == m_sit_down_players[_seat])
+    {
+        m_sit_down_players[_seat] = _player;
+        ret = true;
+    }
+    else
+    {
+        delete _player;
+    }
+    
+
+    return ret;
+}
+game_player *game_table::get_player(int _seat)
+{
+    return m_sit_down_players[_seat];
+}
+void game_table::del_player(int _seat)
+{
+    m_sit_down_players[_seat] = nullptr;
+}
+
+void game_table::Sync_table_info()
+{
+    game::table_info_sync msg;
+
+    msg.set_table_no(m_table_no);
+    for (auto &players:m_sit_down_players)
+    {
+        if (nullptr != players)
+        {
+            auto pplayer_msg = msg.add_players();
+            pplayer_msg->set_seat_no(players->m_seat_no);
+            pplayer_msg->set_total_cash(players->m_total_cash);
+            pplayer_msg->set_name(players->get_name());
+            pplayer_msg->set_bat_cash(players->m_bat_cash);
+            pplayer_msg->set_logo(players->get_logo());
+        }
+    }
+
+    auto out_buff = msg.SerializeAsString();
+
+    for (auto &itr:m_watching_users)
+    {
+        game_mng_send_sync_table_info(itr, out_buff);
+    }
 }

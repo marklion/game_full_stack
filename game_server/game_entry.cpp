@@ -7,14 +7,6 @@
 
 tdf_log g_log("game entry");
 
-static void game_entry_sync_table_info(const std::string _chrct, game_table *_ptable)
-{
-    game::table_info_sync msg;
-    msg.set_table_no(_ptable->m_table_no);
-    game_entry_send_data(_chrct, game_msg_type_table_info_sync, msg.SerializeAsString());
-    g_log.log("sync table info to %s", _chrct.c_str());
-}
-
 class game_channel;
 static std::map<std::string, game_channel *> g_channel_map;
 class game_channel
@@ -47,6 +39,11 @@ public:
         out_buff.append(_data);
 
         tdf_main::get_inst().send_data(m_chrct, out_buff);
+        if (0 != _type)
+        {
+            g_log.log("send to %s, type is %d", m_chrct.c_str(), _type);
+            g_log.log_package(out_buff.c_str(), out_buff.length());
+        }
     }
     void send_session_sync()
     {
@@ -87,7 +84,7 @@ public:
                 auto ptable = game_table::get_table(msg.table_no());
                 if (ptable)
                 {
-                    game_entry_sync_table_info(m_chrct, ptable);
+                    ptable->Sync_table_info();
                 }
                 m_session = tmp_session;
             }
@@ -110,6 +107,17 @@ public:
             }
         }
     }
+
+    void proc_sit_down(game_msg_type _type, const std::string &_data) {
+        game::player_sit_down_req req;
+        req.ParseFromString(_data);
+        game_mng_user_sit_down(m_session, req.seat_no(), req.carry_cash());
+    }
+
+    void proc_stand_up(game_msg_type _type, const std::string &_data) {
+        game_mng_user_stand_up(m_session);
+    }
+
     virtual void proc_data(game_msg_type _type, const std::string &_data)
     {
         auto proc_pf = m_proc_pfs[_type];
@@ -131,6 +139,11 @@ public:
             int data_len = ntohl(*(int *)(data_head + sizeof(int)));
             if ((data_len + 2 * sizeof(int)) <= m_recv_buff.length())
             {
+                if (data_type != 0)
+                {
+                    g_log.log("recv from %s, type is %d", m_chrct.c_str(), data_type);
+                    g_log.log_package(data_head, data_len + 8);
+                }
                 proc_data(data_type, std::string(m_recv_buff.begin() + 2 * sizeof(int), m_recv_buff.begin() + data_len + 2 * sizeof(int)));
                 if (nullptr == g_channel_map[self_chrct])
                 {
@@ -143,6 +156,8 @@ public:
 
     game_channel(const std::string &_chrct) : m_chrct(_chrct), m_proc_pfs{nullptr} {
         m_proc_pfs[game_msg_type_sync_session] = &game_channel::proc_data_sync_session;
+        m_proc_pfs[game_msg_type_player_sit_down] = &game_channel::proc_sit_down;
+        m_proc_pfs[game_msg_type_player_stand_up] = &game_channel::proc_stand_up;
     }
     void proc_hup()
     {

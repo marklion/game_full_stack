@@ -16,6 +16,10 @@ public:
     int m_table_no = -1;
     static game_table *create_game_table();
     static game_table *get_table(int _table_no);
+    bool add_player(int _seat, game_player *_player);
+    game_player *get_player(int _seat);
+    void del_player(int _seat);
+    void Sync_table_info();
 };
 
 #endif // _GAME_TABLE_H_
