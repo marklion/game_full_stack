@@ -55,7 +55,7 @@ static bool game_mng_getupid_acctok(const std::string &_code, std::string *_pupi
 static std::string game_mng_store_logo_to_file(const std::string _logo, const std::string &_upid)
 {
     std::string ret;
-    std::string file_name("/dist/game_resource/logo_");
+    std::string file_name("/game_resource/logo_");
     file_name.append(_upid);
     file_name.append(".jpg");
     
@@ -64,7 +64,7 @@ static std::string game_mng_store_logo_to_file(const std::string _logo, const st
     if (out_file.is_open())
     {
         out_file.write(_logo.data(), _logo.length());
-        ret.assign(file_name.begin() + 5, file_name.end());
+        ret = "logo_" + _upid + ".jpg";
         out_file.close();
     }
     else
@@ -97,7 +97,7 @@ class game_session
             m_name = oJson("nickname");
             auto logo_path = oJson("headimgurl");
             auto logo_content = game_api_wechat_rest_req(logo_path);
-            m_logo = game_mng_store_logo_to_file(logo_content, m_upid);
+            m_logo = game_mng_store_logo_to_file(logo_content, _upid);
         }
     }
     void get_info_from_qq(const std::string &_upid, const std::string &_acc_tok)
