@@ -55,7 +55,7 @@ static bool game_mng_getupid_acctok(const std::string &_code, std::string *_pupi
 static std::string game_mng_store_logo_to_file(const std::string _logo, const std::string &_upid)
 {
     std::string ret;
-    std::string file_name("/inst/game_resource/logo_");
+    std::string file_name("/dist/game_resource/logo_");
     file_name.append(_upid);
     file_name.append(".jpg");
     
@@ -64,9 +64,14 @@ static std::string game_mng_store_logo_to_file(const std::string _logo, const st
     if (out_file.is_open())
     {
         out_file.write(_logo.data(), _logo.length());
-        ret = file_name;
+        ret.assign(file_name.begin() + 5, file_name.end());
         out_file.close();
     }
+    else
+    {
+        g_log.err("logo store file openned failed");
+    }
+    
 
     return ret;
 }
