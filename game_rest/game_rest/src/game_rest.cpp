@@ -65,3 +65,7 @@ table_created_resp game_rest::proc_create_table()
     return ret;
 }
 
+std::string game_rest::proc_random_login()
+{
+    return game_api_user_login();
+}

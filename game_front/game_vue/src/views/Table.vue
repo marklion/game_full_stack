@@ -2,7 +2,8 @@
 <div>
     <el-container>
         <el-header>
-            {{table_no}}
+            <el-page-header @back="leave_table" :content="page_title_no()" title="离开">
+            </el-page-header>
         </el-header>
         <el-main>
             <el-row :gutter="20">
@@ -55,6 +56,9 @@ export default {
                 ];
             },
             is_player_sit: false,
+            page_title_no: function () {
+                return "桌号：" + this.table_no;
+            }
         }
     },
     methods: {
@@ -86,8 +90,11 @@ export default {
 
             this.send_via_websocket(13, sit_req_msg);
         },
-        player_standup_proc: function() {
+        player_standup_proc: function () {
             this.send_empty_via_websocket(15);
+        },
+        leave_table: function () {
+            window.location.replace('/');
         }
     },
     beforeMount: function () {
@@ -127,11 +134,11 @@ export default {
                     case 11:
                         for (let index = 0; index < 6; index++) {
                             vue_this.$set(vue_this.sit_down_player, index, {
-                                seat_no:index,
-                                name:"无玩家",
-                                logo:"",
-                                total_cash:0,
-                                bat_cash:0
+                                seat_no: index,
+                                name: "无玩家",
+                                logo: "",
+                                total_cash: 0,
+                                bat_cash: 0
                             });
                         }
                         var table_info_msg = messages.table_info_sync.deserializeBinary(from_server_data.slice(8));
@@ -172,5 +179,16 @@ export default {
     width: 100%;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+.el-main {
+    padding-bottom: 110px;
+}
+
+.el-footer {
+    position: absolute;
+    bottom: 0;
+    width: 95%;
+    height: 100px;
 }
 </style>

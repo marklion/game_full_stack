@@ -71,6 +71,9 @@ public:
     // *location: /create_table
     // *method: GET
     table_created_resp proc_create_table();
+    // *location: /random_login
+    // *method: GET
+    std::string proc_random_login();
 };
 
 

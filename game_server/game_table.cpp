@@ -3,7 +3,7 @@
 #include "game_mng.h"
 
 static std::map<int, game_table *> g_table_map;
-static int g_increased_no = 0;
+static int g_increased_no = 100;
 
 static tdf_log g_log("game table");
 

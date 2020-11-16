@@ -10,7 +10,7 @@ export default {
     beforeMount: function () {
         var vue_this = this;
         if (this.$route.query.code) {
-            this.axios.post('/game_rest/wechat_login', {
+            this.$axios.post('http://www.d8sis.cn/game_rest/wechat_login', {
                 code: this.$route.query.code
             }).then(
                 function (resp) {

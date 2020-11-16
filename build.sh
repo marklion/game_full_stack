@@ -8,7 +8,6 @@ BUILD_DIR=$(realpath $BUILD_DIR)
 
 [ -d ${BUILD_DIR} ] || mkdir -p "${BUILD_DIR}"
 
-echo ${COMPS[*]}
 for SUB_FOLDER in ${COMPS[*]}
 do
     COMP_NAME=${SUB_FOLDER}
@@ -30,4 +29,7 @@ npm run build
 cp ./dist -a ${BUILD_DIR}/
 popd
 
-tar zcf game_deliver.tar.gz -C ${BUILD_DIR} bin lib conf dist
+cp ${SRC_DIR}/game_resource -a ${BUILD_DIR}
+
+
+tar zcf game_deliver.tar.gz -C ${BUILD_DIR} bin lib conf dist game_resource

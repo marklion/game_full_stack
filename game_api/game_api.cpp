@@ -232,3 +232,27 @@ bool game_api_add_cash(const std::string &_ssid, int _cash)
 
     return ret;
 }
+
+
+std::string game_api_user_login()
+{
+    std::string ret;
+
+    g_log.log("random user login");
+
+    auto presult = game_api_send_recv(game_msg_type_random_login, "");
+    if (presult->m_type == game_msg_type_user_login_resp)
+    {
+        game::user_login_resp resp;
+        resp.ParseFromString(presult->m_data);
+        if (resp.result())
+        {
+            ret = resp.session();
+        }
+
+    }
+    delete presult;
+
+    return ret;
+
+}

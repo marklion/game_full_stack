@@ -12,7 +12,7 @@ export default {
             QC.Login.getMe(function (openId, accessToken) { //该处的openId，accessToken就是后台需要的参数了，后台通过这些参数拿取临时登录凭证，然后就是自己的逻辑了
                 console.log("opid:" + openId);
                 console.log("acctok:" + accessToken);
-                vue_this.$axios.post('/game_rest/qq_login', {
+                vue_this.$axios.post('http://www.d8sis.cn/game_rest/qq_login', {
                     text: {
                         openid: openId,
                         acctok: accessToken

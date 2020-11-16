@@ -24,6 +24,7 @@ enum game_msg_type
     game_msg_type_player_sit_down,
     game_msg_type_player_self_info,
     game_msg_type_player_stand_up,
+    game_msg_type_random_login,
     game_msg_type_max
 };
 

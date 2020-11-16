@@ -21,6 +21,9 @@ public:
 
         return ret;
     }
+    void player_action_fall() {
+
+    }
 };
 
 class game_round {

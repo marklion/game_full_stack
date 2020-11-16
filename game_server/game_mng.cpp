@@ -55,7 +55,7 @@ static bool game_mng_getupid_acctok(const std::string &_code, std::string *_pupi
 static std::string game_mng_store_logo_to_file(const std::string _logo, const std::string &_upid)
 {
     std::string ret;
-    std::string file_name("/game_resource/logo_");
+    std::string file_name("http://www.d8sis.cn/game_resource/logo_");
     file_name.append(_upid);
     file_name.append(".jpg");
     
@@ -64,7 +64,7 @@ static std::string game_mng_store_logo_to_file(const std::string _logo, const st
     if (out_file.is_open())
     {
         out_file.write(_logo.data(), _logo.length());
-        ret = "logo_" + _upid + ".jpg";
+        ret = file_name;
         out_file.close();
     }
     else
@@ -113,7 +113,7 @@ class game_session
             m_name = oJson("nickname");
             auto logo_path = oJson("figureurl_qq_1");
             auto logo_content = game_api_wechat_rest_req(logo_path);
-            m_logo = game_mng_store_logo_to_file(logo_content, m_upid);
+            m_logo = game_mng_store_logo_to_file(logo_content, _upid);
         }
         else
         {
@@ -147,9 +147,11 @@ public:
         auto psession = m_session_map[_session];
         if (nullptr != psession)
         {
+            game_mng_user_stand_up(_session);
+            tdf_main::get_inst().close_data(psession->m_chrct);
+            
             m_session_map.erase(_session);
             m_upid_session_map.erase(psession->m_upid);
-            tdf_main::get_inst().close_data(psession->m_chrct);
             delete psession;
         }
     }
@@ -191,6 +193,18 @@ public:
         psession->get_info_from_qq(_qq_req->openid, _qq_req->acctok);
         psession->m_session = game_mng_gen_ssid();
         psession->m_upid = qq_upid;
+        return psession;
+    }
+    static game_session *create_session()
+    {
+        game_session *psession = nullptr;
+
+        psession = new game_session();
+        psession->m_total_cash = 5000;
+        psession->m_session = game_mng_gen_ssid();
+        psession->m_upid = game_mng_gen_ssid();
+        psession->m_name = "游客";
+        psession->m_logo = "http://www.d8sis.cn/game_resource/random_user_logo.jpg";
         return psession;
     }
     static game_session *get_session(const std::string &_ssid)
@@ -261,7 +275,7 @@ static void game_mng_auth_login(const std::string &_openid, const std::string &_
     },
                                              pqqlogin_req, _from);
 }
-static google::protobuf::Message *proc_user_login(game_msg_type _type, const std::string &_data, const std::string &_from, game_msg_type *_out_type)
+static google::protobuf::Message *proc_wechat_user_login(game_msg_type _type, const std::string &_data, const std::string &_from, game_msg_type *_out_type)
 {
     game::user_login req;
     game::user_login_resp *pret = nullptr;
@@ -273,6 +287,22 @@ static google::protobuf::Message *proc_user_login(game_msg_type _type, const std
     return pret;
 }
 
+static google::protobuf::Message *proc_random_user_login(game_msg_type _type, const std::string &_data, const std::string &_from, game_msg_type *_out_type)
+{
+    game::user_login_resp *pret = new game::user_login_resp();
+    pret->set_result(false);
+
+    auto psession = game_session::create_session();
+    if (psession)
+    {
+        game_session::register_session(psession);
+        pret->set_result(true);
+        pret->set_session(psession->m_session);
+    }
+    *_out_type = game_msg_type_user_login_resp;
+
+    return pret;
+}
 static google::protobuf::Message *proc_user_qq_login(game_msg_type _type, const std::string &_data, const std::string &_from, game_msg_type *_out_type)
 {
     game::user_qq_login req;
@@ -366,11 +396,12 @@ static game_mng_msg_proc_pf g_msg_procs[game_msg_type_max] = {0};
 void game_mng_register_func()
 {
     g_msg_procs[game_msg_type_create_table] = proc_create_table;
-    g_msg_procs[game_msg_type_wechat_login] = proc_user_login;
+    g_msg_procs[game_msg_type_wechat_login] = proc_wechat_user_login;
     g_msg_procs[game_msg_type_qq_login_req] = proc_user_qq_login;
     g_msg_procs[game_msg_type_get_user_info] = proc_get_user_info;
     g_msg_procs[game_msg_type_logoff_user] = proc_logoff_user;
     g_msg_procs[game_msg_type_add_cash] = proc_add_cash;
+    g_msg_procs[game_msg_type_random_login] = proc_random_user_login;
 }
 
 void game_mng_proc(std::string &_chrct, game_msg_type _type, const std::string &_data)
@@ -425,6 +456,7 @@ void game_mng_user_stand_up(const std::string &_ssid)
         if (ptable)
         {
             auto pplayer = ptable->get_player(psession->m_belong_seat);
+            pplayer->player_action_fall();
             ptable->del_player(pplayer->m_seat_no);
 
             psession->m_belong_seat = -1;
