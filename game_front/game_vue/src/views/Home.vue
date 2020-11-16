@@ -10,7 +10,7 @@
             </el-col>
             <el-col :span="12">
                 <el-button type="primary" round @click="nav_to_qq_login">
-                    <img src='http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_4.png'/>
+                    <img src='http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_4.png' />
                 </el-button>
             </el-col>
         </el-row>
@@ -58,7 +58,7 @@
                         <el-button type="primary" @click="enter_random">随机入桌</el-button>
                     </el-col>
                     <el-col :span="8">
-                        <el-button type="primary" @click="enter_table">按号入桌</el-button>
+                        <el-button type="primary" @click="table_no_dialog = true">按号入桌</el-button>
                     </el-col>
                 </el-row>
                 <el-button type="success" v-if="belong_to_table != -1" @click="re_con_table">重连到{{belong_to_table}}号桌</el-button>
@@ -67,6 +67,20 @@
                 <el-button type="danger" @click="logoff">退出登录</el-button>
             </el-footer>
         </el-container>
+        <el-dialog :visible.sync="table_no_dialog" width="30%">
+            <span>请输入桌号</span>
+            <span slot="footer" class="dialog-footer">
+                <el-input v-model="table_no_enter" placeholder="请输入桌号"></el-input>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-button type="primary" @click="enter_table">确 定</el-button>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-button @click="table_no_dialog= false">取 消</el-button>
+                    </el-col>
+                </el-row>
+            </span>
+        </el-dialog>
     </div>
     <el-link type="info" href="http://beian.miit.gov.cn" id="beian">京ICP备2020039126号-1</el-link>
 </div>
@@ -89,6 +103,8 @@ export default {
             is_login: false,
             added_cash: 1000,
             belong_to_table: -1,
+            table_no_dialog: false,
+            table_no_enter: "",
         };
     },
     methods: {
@@ -167,23 +183,25 @@ export default {
                 console.log(err);
             });
         },
-        enter_random: function () {
-
-        },
+        enter_random: function () {},
         enter_table: function () {
+            this.table_no_dialog = false;
 
+            this.$router.push({
+                path: '/table/' + this.table_no_enter
+            });
         },
         re_con_table: function () {
             this.$router.push({
                 path: '/table/' + this.belong_to_table
             });
         },
-        random_login:function() {
+        random_login: function () {
             var vue_this = this;
-            this.$axios.get('http://www.d8sis.cn/game_rest/random_login').then(function(resp) {                    
+            this.$axios.get('http://www.d8sis.cn/game_rest/random_login').then(function (resp) {
                 vue_this.$cookies.set("ssid", resp.data.result);
                 window.location.replace('/');
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log(err);
             });
         }
