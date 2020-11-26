@@ -6,6 +6,7 @@
 #include "game_table.h"
 #include <algorithm>
 #include <fstream>
+#include "game_logic.h"
 
 static tdf_log g_log("game manager");
 
@@ -130,6 +131,7 @@ public:
     std::string m_chrct;
     int m_belong_table = -1;
     int m_belong_seat = -1;
+    int m_session_timer = -1;
     void sync_self_info() {
         game::player_self_info msg;
         msg.set_seat_no(m_belong_seat);
@@ -152,6 +154,7 @@ public:
             
             m_session_map.erase(_session);
             m_upid_session_map.erase(psession->m_upid);
+            tdf_main::get_inst().stop_timer(psession->m_session_timer);
             delete psession;
         }
     }
@@ -164,6 +167,14 @@ public:
         }
         m_session_map[_session->m_session] = _session;
         m_upid_session_map[_session->m_upid] = _session->m_session;
+        _session->m_session_timer = tdf_main::get_inst().start_timer(600, [](void *_private)->void {
+            auto psession = (game_session *)_private;
+            if (psession->m_belong_seat == -1)
+            {
+                g_log.log("session: %s remove for no-active", psession->m_session.c_str());
+                deregister_session(psession->m_session);
+            }
+        }, _session);
     }
     static game_session *create_session(const std::string &_code)
     {
@@ -440,6 +451,7 @@ void game_mng_user_sit_down(const std::string &_ssid, int _seat_no, int _carry_c
                         psession->m_total_cash -= _carry_cash;
                         psession->sync_self_info();
                         ptable->Sync_table_info();
+                        game_mng_send_self_cards_info(_ssid);
                     }
                 }
             }
@@ -493,6 +505,7 @@ bool game_mng_set_user_connect(const std::string &_ssid, const std::string &_chr
             {
                 psession->m_chrct = _chrct;
                 psession->sync_self_info();
+                game_mng_send_self_cards_info(_ssid);
                 ret = true;
             }
         }
@@ -545,4 +558,83 @@ void game_mng_get_user_logo(const std::string &_ssid, std::string *_logo)
     {
         _logo->assign(psession->m_logo);
     }
+}
+
+std::string game_mng_get_chrct(const std::string &_ssid)
+{
+    std::string ret;
+
+    auto psession = game_session::get_session(_ssid);
+    if (psession)
+    {
+        return psession->m_chrct;
+    }
+
+    return ret;
+}
+
+
+void game_mng_send_self_cards_info(const std::string &_ssid)
+{
+    auto psession = game_session::get_session(_ssid);
+    if (psession)
+    {
+        auto ptable = game_table::get_table(psession->m_belong_table);
+        if (ptable)
+        {
+            auto pplayer = ptable->get_player(psession->m_belong_seat);
+            if (pplayer)
+            {
+                game::player_hand_card_info msg;
+                auto first_card_msg = msg.mutable_first();
+                auto second_card_msg = msg.mutable_second();
+                first_card_msg->set_number(pplayer->m_hand_card[0].m_num);
+                first_card_msg->set_color(pplayer->m_hand_card[0].m_color);
+                second_card_msg->set_number(pplayer->m_hand_card[1].m_num);
+                second_card_msg->set_color(pplayer->m_hand_card[1].m_color);
+
+                game_entry_send_data(psession->m_chrct, game_msg_type_self_hand_card, msg.SerializeAsString());
+            }
+        }
+    }
+}
+
+void game_mng_proc_player_action(const std::string &_ssid, int _action, int _cash)
+{
+    auto psession = game_session::get_session(_ssid);
+    if (psession)
+    {
+        auto ptable = game_table::get_table(psession->m_belong_table);
+        if (ptable)
+        {
+            auto pplayer = ptable->get_player(psession->m_belong_seat);
+            if (pplayer != nullptr && pplayer->m_seat_no == ptable->m_round->get_action_pos())
+            {
+                if (_action == 0)
+                {
+                    pplayer->proc_action_bat(_cash);
+                }
+                else
+                {
+                    pplayer->player_action_fall();
+                }
+                game_sm_msg msg(game_sm_msg::player_action, (void *)(pplayer->m_seat_no));
+                ptable->m_round->game_sm_proc(&msg, ptable->m_round);
+                ptable->Sync_table_info();
+            }
+        }
+    }
+}
+
+int game_mng_get_table(const std::string &_ssid)
+{
+    int ret = -1;
+
+    auto psession = game_session::get_session(_ssid);
+    if (psession != nullptr)
+    {
+        ret = psession->m_belong_table;
+    }
+
+    return ret;
 }

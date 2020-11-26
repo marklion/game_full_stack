@@ -45,7 +45,11 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {},
+    "globals": {
+      "proto": "readonly",
+      "QC": "readonly"
+  }
   },
   "browserslist": [
     "> 1%",

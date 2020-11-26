@@ -1,25 +1,19 @@
 <template>
 <div class="each_player">
-    <el-card>
+    <el-card :body-style="{ padding: '3px' }" class="player_show_class" :style="seat_no_background(seat_no)">
         <div>
-            <p>{{seat_no}}</p>
+            <el-avatar :src="player_info.logo" :size="50"></el-avatar>
         </div>
-        <el-row :gutter="20">
-            <el-col :span="12">
-                <el-avatar :src="player_info.logo" :size="50"></el-avatar>
-            </el-col>
-            <el-col :span="12">
-                {{player_info.name}}
-            </el-col>
-        </el-row>
-        <el-row :gutter="20">
-            <el-col :span="12">
-                共{{player_info.total_cash}}
-            </el-col>
-            <el-col :span="12">
-                下注{{player_info.bat_cash}}
-            </el-col>
-        </el-row>
+        <div>
+            {{player_info.name}}
+        </div>
+        <hr>
+        <div>
+            <i class="el-icon-money">{{player_info.total_cash}}</i>
+        </div>
+        <div>
+            <i class="el-icon-bottom-right">{{player_info.bat_cash}}</i>
+        </div>
         <el-dialog title="携带金额" :visible.sync="centerDialogVisible" center>
             <el-row>
                 <el-input-number v-model="carry_cash" :step="1000"></el-input-number>
@@ -45,12 +39,14 @@ export default {
         seat_no: Number,
         player_info: {
             name: "",
-            logo:"",
+            logo: "",
             total_cash: 0,
             bat_cash: 0,
         },
         sit_down_proc_in: Function,
         show_sit_down: Boolean,
+        dealer_pos: Number,
+        action_pos: Number,
     },
     data: function () {
         return {
@@ -61,7 +57,19 @@ export default {
                     return true;
                 else
                     return false;
-            }
+            },
+            seat_no_background:function(_seat_no) {
+                var seat_no_show = _seat_no + 1;
+                var img_url = "http://www.d8sis.cn/game_resource/number_background/red_num_0"+seat_no_show+".png";
+                var color = 'lightgoldenrodyellow';
+
+                return { 
+                    background: "url(" + img_url + ")", 
+                    'background-size': 'auto ' + "15%", 
+                    'background-repeat': "no-repeat", 
+                    'background-color': color
+                };           
+            },
         }
     },
     methods: {
@@ -88,5 +96,12 @@ export default {
     width: 100%;
     padding-left: 4px;
     padding-right: 4px;
+}
+
+.money_show_class {
+    line-height: 20%;
+}
+.player_show_class {
+    text-align: center;
 }
 </style>

@@ -38,6 +38,7 @@ api_resp *game_api_send_recv(game_msg_type _type, const std::string &_data)
             out_buff.append(_data);
             if (out_buff.length() == send(fd, out_buff.data(), out_buff.length(), 0))
             {
+                g_log.log("send req to server type: %d", _type);
                 g_log.log_package(out_buff.data(), out_buff.length());
                 std::string in_buff;
                 bool proc_finish = false;
@@ -59,6 +60,8 @@ api_resp *game_api_send_recv(game_msg_type _type, const std::string &_data)
                             pret->m_type = (game_msg_type)recv_type;
                             pret->m_data.assign(in_buff.begin() + 2 * sizeof(int), in_buff.end());
                             proc_finish = true;
+                            g_log.log("recv from server type:%d", recv_type);
+                            g_log.log_package(in_buff.data(), in_buff.length());
                         }
                     }
                 }

@@ -47,7 +47,7 @@ struct TableStruct_game_5fmsg_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[13]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[15]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -67,6 +67,12 @@ extern game_mng_resultDefaultTypeInternal _game_mng_result_default_instance_;
 class game_poker_card;
 class game_poker_cardDefaultTypeInternal;
 extern game_poker_cardDefaultTypeInternal _game_poker_card_default_instance_;
+class player_action;
+class player_actionDefaultTypeInternal;
+extern player_actionDefaultTypeInternal _player_action_default_instance_;
+class player_hand_card_info;
+class player_hand_card_infoDefaultTypeInternal;
+extern player_hand_card_infoDefaultTypeInternal _player_hand_card_info_default_instance_;
 class player_self_info;
 class player_self_infoDefaultTypeInternal;
 extern player_self_infoDefaultTypeInternal _player_self_info_default_instance_;
@@ -100,6 +106,8 @@ template<> ::game::add_cash_req* Arena::CreateMaybeMessage<::game::add_cash_req>
 template<> ::game::create_table_resp* Arena::CreateMaybeMessage<::game::create_table_resp>(Arena*);
 template<> ::game::game_mng_result* Arena::CreateMaybeMessage<::game::game_mng_result>(Arena*);
 template<> ::game::game_poker_card* Arena::CreateMaybeMessage<::game::game_poker_card>(Arena*);
+template<> ::game::player_action* Arena::CreateMaybeMessage<::game::player_action>(Arena*);
+template<> ::game::player_hand_card_info* Arena::CreateMaybeMessage<::game::player_hand_card_info>(Arena*);
 template<> ::game::player_self_info* Arena::CreateMaybeMessage<::game::player_self_info>(Arena*);
 template<> ::game::player_sit_down_req* Arena::CreateMaybeMessage<::game::player_sit_down_req>(Arena*);
 template<> ::game::sync_session* Arena::CreateMaybeMessage<::game::sync_session>(Arena*);
@@ -1483,6 +1491,8 @@ class table_seat_player PROTOBUF_FINAL :
     kSeatNoFieldNumber = 1,
     kTotalCashFieldNumber = 3,
     kBatCashFieldNumber = 4,
+    kIsFallFieldNumber = 6,
+    kIsAllInFieldNumber = 7,
   };
   // string name = 2;
   void clear_name();
@@ -1543,6 +1553,24 @@ class table_seat_player PROTOBUF_FINAL :
   void _internal_set_bat_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // bool is_fall = 6;
+  void clear_is_fall();
+  bool is_fall() const;
+  void set_is_fall(bool value);
+  private:
+  bool _internal_is_fall() const;
+  void _internal_set_is_fall(bool value);
+  public:
+
+  // bool is_all_in = 7;
+  void clear_is_all_in();
+  bool is_all_in() const;
+  void set_is_all_in(bool value);
+  private:
+  bool _internal_is_all_in() const;
+  void _internal_set_is_all_in(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:game.table_seat_player)
  private:
   class _Internal;
@@ -1555,6 +1583,8 @@ class table_seat_player PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::int32 seat_no_;
   ::PROTOBUF_NAMESPACE_ID::int32 total_cash_;
   ::PROTOBUF_NAMESPACE_ID::int32 bat_cash_;
+  bool is_fall_;
+  bool is_all_in_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fmsg_2eproto;
 };
@@ -1675,6 +1705,9 @@ class table_info_sync PROTOBUF_FINAL :
   enum : int {
     kPlayersFieldNumber = 2,
     kTableNoFieldNumber = 1,
+    kDealerPosFieldNumber = 3,
+    kActionPosFieldNumber = 4,
+    kMinBatFieldNumber = 5,
   };
   // repeated .game.table_seat_player players = 2;
   int players_size() const;
@@ -1703,6 +1736,33 @@ class table_info_sync PROTOBUF_FINAL :
   void _internal_set_table_no(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 dealer_pos = 3;
+  void clear_dealer_pos();
+  ::PROTOBUF_NAMESPACE_ID::int32 dealer_pos() const;
+  void set_dealer_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_dealer_pos() const;
+  void _internal_set_dealer_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 action_pos = 4;
+  void clear_action_pos();
+  ::PROTOBUF_NAMESPACE_ID::int32 action_pos() const;
+  void set_action_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_action_pos() const;
+  void _internal_set_action_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 min_bat = 5;
+  void clear_min_bat();
+  ::PROTOBUF_NAMESPACE_ID::int32 min_bat() const;
+  void set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_min_bat() const;
+  void _internal_set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:game.table_info_sync)
  private:
   class _Internal;
@@ -1712,6 +1772,9 @@ class table_info_sync PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::table_seat_player > players_;
   ::PROTOBUF_NAMESPACE_ID::int32 table_no_;
+  ::PROTOBUF_NAMESPACE_ID::int32 dealer_pos_;
+  ::PROTOBUF_NAMESPACE_ID::int32 action_pos_;
+  ::PROTOBUF_NAMESPACE_ID::int32 min_bat_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fmsg_2eproto;
 };
@@ -2126,46 +2189,8 @@ class player_self_info PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFirstCardFieldNumber = 2,
-    kSecondCardFieldNumber = 3,
     kSeatNoFieldNumber = 1,
   };
-  // .game.game_poker_card first_card = 2;
-  bool has_first_card() const;
-  private:
-  bool _internal_has_first_card() const;
-  public:
-  void clear_first_card();
-  const ::game::game_poker_card& first_card() const;
-  ::game::game_poker_card* release_first_card();
-  ::game::game_poker_card* mutable_first_card();
-  void set_allocated_first_card(::game::game_poker_card* first_card);
-  private:
-  const ::game::game_poker_card& _internal_first_card() const;
-  ::game::game_poker_card* _internal_mutable_first_card();
-  public:
-  void unsafe_arena_set_allocated_first_card(
-      ::game::game_poker_card* first_card);
-  ::game::game_poker_card* unsafe_arena_release_first_card();
-
-  // .game.game_poker_card second_card = 3;
-  bool has_second_card() const;
-  private:
-  bool _internal_has_second_card() const;
-  public:
-  void clear_second_card();
-  const ::game::game_poker_card& second_card() const;
-  ::game::game_poker_card* release_second_card();
-  ::game::game_poker_card* mutable_second_card();
-  void set_allocated_second_card(::game::game_poker_card* second_card);
-  private:
-  const ::game::game_poker_card& _internal_second_card() const;
-  ::game::game_poker_card* _internal_mutable_second_card();
-  public:
-  void unsafe_arena_set_allocated_second_card(
-      ::game::game_poker_card* second_card);
-  ::game::game_poker_card* unsafe_arena_release_second_card();
-
   // int32 seat_no = 1;
   void clear_seat_no();
   ::PROTOBUF_NAMESPACE_ID::int32 seat_no() const;
@@ -2182,9 +2207,321 @@ class player_self_info PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::game::game_poker_card* first_card_;
-  ::game::game_poker_card* second_card_;
   ::PROTOBUF_NAMESPACE_ID::int32 seat_no_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fmsg_2eproto;
+};
+// -------------------------------------------------------------------
+
+class player_hand_card_info PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.player_hand_card_info) */ {
+ public:
+  inline player_hand_card_info() : player_hand_card_info(nullptr) {}
+  virtual ~player_hand_card_info();
+
+  player_hand_card_info(const player_hand_card_info& from);
+  player_hand_card_info(player_hand_card_info&& from) noexcept
+    : player_hand_card_info() {
+    *this = ::std::move(from);
+  }
+
+  inline player_hand_card_info& operator=(const player_hand_card_info& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline player_hand_card_info& operator=(player_hand_card_info&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const player_hand_card_info& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const player_hand_card_info* internal_default_instance() {
+    return reinterpret_cast<const player_hand_card_info*>(
+               &_player_hand_card_info_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    13;
+
+  friend void swap(player_hand_card_info& a, player_hand_card_info& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(player_hand_card_info* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(player_hand_card_info* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline player_hand_card_info* New() const final {
+    return CreateMaybeMessage<player_hand_card_info>(nullptr);
+  }
+
+  player_hand_card_info* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<player_hand_card_info>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const player_hand_card_info& from);
+  void MergeFrom(const player_hand_card_info& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(player_hand_card_info* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.player_hand_card_info";
+  }
+  protected:
+  explicit player_hand_card_info(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_game_5fmsg_2eproto);
+    return ::descriptor_table_game_5fmsg_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kFirstFieldNumber = 1,
+    kSecondFieldNumber = 2,
+  };
+  // .game.game_poker_card first = 1;
+  bool has_first() const;
+  private:
+  bool _internal_has_first() const;
+  public:
+  void clear_first();
+  const ::game::game_poker_card& first() const;
+  ::game::game_poker_card* release_first();
+  ::game::game_poker_card* mutable_first();
+  void set_allocated_first(::game::game_poker_card* first);
+  private:
+  const ::game::game_poker_card& _internal_first() const;
+  ::game::game_poker_card* _internal_mutable_first();
+  public:
+  void unsafe_arena_set_allocated_first(
+      ::game::game_poker_card* first);
+  ::game::game_poker_card* unsafe_arena_release_first();
+
+  // .game.game_poker_card second = 2;
+  bool has_second() const;
+  private:
+  bool _internal_has_second() const;
+  public:
+  void clear_second();
+  const ::game::game_poker_card& second() const;
+  ::game::game_poker_card* release_second();
+  ::game::game_poker_card* mutable_second();
+  void set_allocated_second(::game::game_poker_card* second);
+  private:
+  const ::game::game_poker_card& _internal_second() const;
+  ::game::game_poker_card* _internal_mutable_second();
+  public:
+  void unsafe_arena_set_allocated_second(
+      ::game::game_poker_card* second);
+  ::game::game_poker_card* unsafe_arena_release_second();
+
+  // @@protoc_insertion_point(class_scope:game.player_hand_card_info)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::game::game_poker_card* first_;
+  ::game::game_poker_card* second_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fmsg_2eproto;
+};
+// -------------------------------------------------------------------
+
+class player_action PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.player_action) */ {
+ public:
+  inline player_action() : player_action(nullptr) {}
+  virtual ~player_action();
+
+  player_action(const player_action& from);
+  player_action(player_action&& from) noexcept
+    : player_action() {
+    *this = ::std::move(from);
+  }
+
+  inline player_action& operator=(const player_action& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline player_action& operator=(player_action&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const player_action& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const player_action* internal_default_instance() {
+    return reinterpret_cast<const player_action*>(
+               &_player_action_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    14;
+
+  friend void swap(player_action& a, player_action& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(player_action* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(player_action* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline player_action* New() const final {
+    return CreateMaybeMessage<player_action>(nullptr);
+  }
+
+  player_action* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<player_action>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const player_action& from);
+  void MergeFrom(const player_action& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(player_action* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.player_action";
+  }
+  protected:
+  explicit player_action(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_game_5fmsg_2eproto);
+    return ::descriptor_table_game_5fmsg_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kActionFieldNumber = 1,
+    kCashFieldNumber = 2,
+  };
+  // int32 action = 1;
+  void clear_action();
+  ::PROTOBUF_NAMESPACE_ID::int32 action() const;
+  void set_action(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_action() const;
+  void _internal_set_action(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 cash = 2;
+  void clear_cash();
+  ::PROTOBUF_NAMESPACE_ID::int32 cash() const;
+  void set_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_cash() const;
+  void _internal_set_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.player_action)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 action_;
+  ::PROTOBUF_NAMESPACE_ID::int32 cash_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fmsg_2eproto;
 };
@@ -3091,6 +3428,46 @@ inline void table_seat_player::set_allocated_logo(std::string* logo) {
   // @@protoc_insertion_point(field_set_allocated:game.table_seat_player.logo)
 }
 
+// bool is_fall = 6;
+inline void table_seat_player::clear_is_fall() {
+  is_fall_ = false;
+}
+inline bool table_seat_player::_internal_is_fall() const {
+  return is_fall_;
+}
+inline bool table_seat_player::is_fall() const {
+  // @@protoc_insertion_point(field_get:game.table_seat_player.is_fall)
+  return _internal_is_fall();
+}
+inline void table_seat_player::_internal_set_is_fall(bool value) {
+  
+  is_fall_ = value;
+}
+inline void table_seat_player::set_is_fall(bool value) {
+  _internal_set_is_fall(value);
+  // @@protoc_insertion_point(field_set:game.table_seat_player.is_fall)
+}
+
+// bool is_all_in = 7;
+inline void table_seat_player::clear_is_all_in() {
+  is_all_in_ = false;
+}
+inline bool table_seat_player::_internal_is_all_in() const {
+  return is_all_in_;
+}
+inline bool table_seat_player::is_all_in() const {
+  // @@protoc_insertion_point(field_get:game.table_seat_player.is_all_in)
+  return _internal_is_all_in();
+}
+inline void table_seat_player::_internal_set_is_all_in(bool value) {
+  
+  is_all_in_ = value;
+}
+inline void table_seat_player::set_is_all_in(bool value) {
+  _internal_set_is_all_in(value);
+  // @@protoc_insertion_point(field_set:game.table_seat_player.is_all_in)
+}
+
 // -------------------------------------------------------------------
 
 // table_info_sync
@@ -3152,6 +3529,66 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::table_seat_playe
 table_info_sync::players() const {
   // @@protoc_insertion_point(field_list:game.table_info_sync.players)
   return players_;
+}
+
+// int32 dealer_pos = 3;
+inline void table_info_sync::clear_dealer_pos() {
+  dealer_pos_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 table_info_sync::_internal_dealer_pos() const {
+  return dealer_pos_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 table_info_sync::dealer_pos() const {
+  // @@protoc_insertion_point(field_get:game.table_info_sync.dealer_pos)
+  return _internal_dealer_pos();
+}
+inline void table_info_sync::_internal_set_dealer_pos(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  dealer_pos_ = value;
+}
+inline void table_info_sync::set_dealer_pos(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_dealer_pos(value);
+  // @@protoc_insertion_point(field_set:game.table_info_sync.dealer_pos)
+}
+
+// int32 action_pos = 4;
+inline void table_info_sync::clear_action_pos() {
+  action_pos_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 table_info_sync::_internal_action_pos() const {
+  return action_pos_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 table_info_sync::action_pos() const {
+  // @@protoc_insertion_point(field_get:game.table_info_sync.action_pos)
+  return _internal_action_pos();
+}
+inline void table_info_sync::_internal_set_action_pos(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  action_pos_ = value;
+}
+inline void table_info_sync::set_action_pos(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_action_pos(value);
+  // @@protoc_insertion_point(field_set:game.table_info_sync.action_pos)
+}
+
+// int32 min_bat = 5;
+inline void table_info_sync::clear_min_bat() {
+  min_bat_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 table_info_sync::_internal_min_bat() const {
+  return min_bat_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 table_info_sync::min_bat() const {
+  // @@protoc_insertion_point(field_get:game.table_info_sync.min_bat)
+  return _internal_min_bat();
+}
+inline void table_info_sync::_internal_set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  min_bat_ = value;
+}
+inline void table_info_sync::set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_min_bat(value);
+  // @@protoc_insertion_point(field_set:game.table_info_sync.min_bat)
 }
 
 // -------------------------------------------------------------------
@@ -3266,175 +3703,227 @@ inline void player_self_info::set_seat_no(::PROTOBUF_NAMESPACE_ID::int32 value) 
   // @@protoc_insertion_point(field_set:game.player_self_info.seat_no)
 }
 
-// .game.game_poker_card first_card = 2;
-inline bool player_self_info::_internal_has_first_card() const {
-  return this != internal_default_instance() && first_card_ != nullptr;
+// -------------------------------------------------------------------
+
+// player_hand_card_info
+
+// .game.game_poker_card first = 1;
+inline bool player_hand_card_info::_internal_has_first() const {
+  return this != internal_default_instance() && first_ != nullptr;
 }
-inline bool player_self_info::has_first_card() const {
-  return _internal_has_first_card();
+inline bool player_hand_card_info::has_first() const {
+  return _internal_has_first();
 }
-inline void player_self_info::clear_first_card() {
-  if (GetArena() == nullptr && first_card_ != nullptr) {
-    delete first_card_;
+inline void player_hand_card_info::clear_first() {
+  if (GetArena() == nullptr && first_ != nullptr) {
+    delete first_;
   }
-  first_card_ = nullptr;
+  first_ = nullptr;
 }
-inline const ::game::game_poker_card& player_self_info::_internal_first_card() const {
-  const ::game::game_poker_card* p = first_card_;
+inline const ::game::game_poker_card& player_hand_card_info::_internal_first() const {
+  const ::game::game_poker_card* p = first_;
   return p != nullptr ? *p : *reinterpret_cast<const ::game::game_poker_card*>(
       &::game::_game_poker_card_default_instance_);
 }
-inline const ::game::game_poker_card& player_self_info::first_card() const {
-  // @@protoc_insertion_point(field_get:game.player_self_info.first_card)
-  return _internal_first_card();
+inline const ::game::game_poker_card& player_hand_card_info::first() const {
+  // @@protoc_insertion_point(field_get:game.player_hand_card_info.first)
+  return _internal_first();
 }
-inline void player_self_info::unsafe_arena_set_allocated_first_card(
-    ::game::game_poker_card* first_card) {
+inline void player_hand_card_info::unsafe_arena_set_allocated_first(
+    ::game::game_poker_card* first) {
   if (GetArena() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(first_card_);
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(first_);
   }
-  first_card_ = first_card;
-  if (first_card) {
+  first_ = first;
+  if (first) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.player_self_info.first_card)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.player_hand_card_info.first)
 }
-inline ::game::game_poker_card* player_self_info::release_first_card() {
+inline ::game::game_poker_card* player_hand_card_info::release_first() {
   
-  ::game::game_poker_card* temp = first_card_;
-  first_card_ = nullptr;
+  ::game::game_poker_card* temp = first_;
+  first_ = nullptr;
   if (GetArena() != nullptr) {
     temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
   return temp;
 }
-inline ::game::game_poker_card* player_self_info::unsafe_arena_release_first_card() {
-  // @@protoc_insertion_point(field_release:game.player_self_info.first_card)
+inline ::game::game_poker_card* player_hand_card_info::unsafe_arena_release_first() {
+  // @@protoc_insertion_point(field_release:game.player_hand_card_info.first)
   
-  ::game::game_poker_card* temp = first_card_;
-  first_card_ = nullptr;
+  ::game::game_poker_card* temp = first_;
+  first_ = nullptr;
   return temp;
 }
-inline ::game::game_poker_card* player_self_info::_internal_mutable_first_card() {
+inline ::game::game_poker_card* player_hand_card_info::_internal_mutable_first() {
   
-  if (first_card_ == nullptr) {
+  if (first_ == nullptr) {
     auto* p = CreateMaybeMessage<::game::game_poker_card>(GetArena());
-    first_card_ = p;
+    first_ = p;
   }
-  return first_card_;
+  return first_;
 }
-inline ::game::game_poker_card* player_self_info::mutable_first_card() {
-  // @@protoc_insertion_point(field_mutable:game.player_self_info.first_card)
-  return _internal_mutable_first_card();
+inline ::game::game_poker_card* player_hand_card_info::mutable_first() {
+  // @@protoc_insertion_point(field_mutable:game.player_hand_card_info.first)
+  return _internal_mutable_first();
 }
-inline void player_self_info::set_allocated_first_card(::game::game_poker_card* first_card) {
+inline void player_hand_card_info::set_allocated_first(::game::game_poker_card* first) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
   if (message_arena == nullptr) {
-    delete first_card_;
+    delete first_;
   }
-  if (first_card) {
+  if (first) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(first_card);
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(first);
     if (message_arena != submessage_arena) {
-      first_card = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, first_card, submessage_arena);
+      first = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, first, submessage_arena);
     }
     
   } else {
     
   }
-  first_card_ = first_card;
-  // @@protoc_insertion_point(field_set_allocated:game.player_self_info.first_card)
+  first_ = first;
+  // @@protoc_insertion_point(field_set_allocated:game.player_hand_card_info.first)
 }
 
-// .game.game_poker_card second_card = 3;
-inline bool player_self_info::_internal_has_second_card() const {
-  return this != internal_default_instance() && second_card_ != nullptr;
+// .game.game_poker_card second = 2;
+inline bool player_hand_card_info::_internal_has_second() const {
+  return this != internal_default_instance() && second_ != nullptr;
 }
-inline bool player_self_info::has_second_card() const {
-  return _internal_has_second_card();
+inline bool player_hand_card_info::has_second() const {
+  return _internal_has_second();
 }
-inline void player_self_info::clear_second_card() {
-  if (GetArena() == nullptr && second_card_ != nullptr) {
-    delete second_card_;
+inline void player_hand_card_info::clear_second() {
+  if (GetArena() == nullptr && second_ != nullptr) {
+    delete second_;
   }
-  second_card_ = nullptr;
+  second_ = nullptr;
 }
-inline const ::game::game_poker_card& player_self_info::_internal_second_card() const {
-  const ::game::game_poker_card* p = second_card_;
+inline const ::game::game_poker_card& player_hand_card_info::_internal_second() const {
+  const ::game::game_poker_card* p = second_;
   return p != nullptr ? *p : *reinterpret_cast<const ::game::game_poker_card*>(
       &::game::_game_poker_card_default_instance_);
 }
-inline const ::game::game_poker_card& player_self_info::second_card() const {
-  // @@protoc_insertion_point(field_get:game.player_self_info.second_card)
-  return _internal_second_card();
+inline const ::game::game_poker_card& player_hand_card_info::second() const {
+  // @@protoc_insertion_point(field_get:game.player_hand_card_info.second)
+  return _internal_second();
 }
-inline void player_self_info::unsafe_arena_set_allocated_second_card(
-    ::game::game_poker_card* second_card) {
+inline void player_hand_card_info::unsafe_arena_set_allocated_second(
+    ::game::game_poker_card* second) {
   if (GetArena() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(second_card_);
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(second_);
   }
-  second_card_ = second_card;
-  if (second_card) {
+  second_ = second;
+  if (second) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.player_self_info.second_card)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:game.player_hand_card_info.second)
 }
-inline ::game::game_poker_card* player_self_info::release_second_card() {
+inline ::game::game_poker_card* player_hand_card_info::release_second() {
   
-  ::game::game_poker_card* temp = second_card_;
-  second_card_ = nullptr;
+  ::game::game_poker_card* temp = second_;
+  second_ = nullptr;
   if (GetArena() != nullptr) {
     temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
   return temp;
 }
-inline ::game::game_poker_card* player_self_info::unsafe_arena_release_second_card() {
-  // @@protoc_insertion_point(field_release:game.player_self_info.second_card)
+inline ::game::game_poker_card* player_hand_card_info::unsafe_arena_release_second() {
+  // @@protoc_insertion_point(field_release:game.player_hand_card_info.second)
   
-  ::game::game_poker_card* temp = second_card_;
-  second_card_ = nullptr;
+  ::game::game_poker_card* temp = second_;
+  second_ = nullptr;
   return temp;
 }
-inline ::game::game_poker_card* player_self_info::_internal_mutable_second_card() {
+inline ::game::game_poker_card* player_hand_card_info::_internal_mutable_second() {
   
-  if (second_card_ == nullptr) {
+  if (second_ == nullptr) {
     auto* p = CreateMaybeMessage<::game::game_poker_card>(GetArena());
-    second_card_ = p;
+    second_ = p;
   }
-  return second_card_;
+  return second_;
 }
-inline ::game::game_poker_card* player_self_info::mutable_second_card() {
-  // @@protoc_insertion_point(field_mutable:game.player_self_info.second_card)
-  return _internal_mutable_second_card();
+inline ::game::game_poker_card* player_hand_card_info::mutable_second() {
+  // @@protoc_insertion_point(field_mutable:game.player_hand_card_info.second)
+  return _internal_mutable_second();
 }
-inline void player_self_info::set_allocated_second_card(::game::game_poker_card* second_card) {
+inline void player_hand_card_info::set_allocated_second(::game::game_poker_card* second) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
   if (message_arena == nullptr) {
-    delete second_card_;
+    delete second_;
   }
-  if (second_card) {
+  if (second) {
     ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(second_card);
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(second);
     if (message_arena != submessage_arena) {
-      second_card = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, second_card, submessage_arena);
+      second = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, second, submessage_arena);
     }
     
   } else {
     
   }
-  second_card_ = second_card;
-  // @@protoc_insertion_point(field_set_allocated:game.player_self_info.second_card)
+  second_ = second;
+  // @@protoc_insertion_point(field_set_allocated:game.player_hand_card_info.second)
+}
+
+// -------------------------------------------------------------------
+
+// player_action
+
+// int32 action = 1;
+inline void player_action::clear_action() {
+  action_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 player_action::_internal_action() const {
+  return action_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 player_action::action() const {
+  // @@protoc_insertion_point(field_get:game.player_action.action)
+  return _internal_action();
+}
+inline void player_action::_internal_set_action(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  action_ = value;
+}
+inline void player_action::set_action(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_action(value);
+  // @@protoc_insertion_point(field_set:game.player_action.action)
+}
+
+// int32 cash = 2;
+inline void player_action::clear_cash() {
+  cash_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 player_action::_internal_cash() const {
+  return cash_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 player_action::cash() const {
+  // @@protoc_insertion_point(field_get:game.player_action.cash)
+  return _internal_cash();
+}
+inline void player_action::_internal_set_cash(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  cash_ = value;
+}
+inline void player_action::set_cash(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_cash(value);
+  // @@protoc_insertion_point(field_set:game.player_action.cash)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

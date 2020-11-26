@@ -3,8 +3,9 @@
 
 #include <string>
 #include <list>
-#include "game_logic.h"
 
+class game_player;
+class game_round;
 class game_table {
 public:
     std::list<std::string> m_watching_users; 
@@ -20,6 +21,9 @@ public:
     game_player *get_player(int _seat);
     void del_player(int _seat);
     void Sync_table_info();
+    int m_table_timer = -1;
+    game_round *m_round = nullptr;
+    virtual ~game_table();
 };
 
 #endif // _GAME_TABLE_H_

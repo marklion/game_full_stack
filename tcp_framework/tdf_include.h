@@ -81,8 +81,14 @@ public:
     }
     ~tdf_log()
     {
-        close(m_log_stdout);
-        close(m_log_stderr);
+        if (m_log_stdout != 1)
+        {
+            close(m_log_stdout);
+        }
+        if (m_log_stderr != 2)
+        {
+            close(m_log_stderr);
+        }
     }
     void log(const std::string &_log)
     {

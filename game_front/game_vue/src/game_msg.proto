@@ -48,11 +48,16 @@ message table_seat_player {
     int32 total_cash = 3;
     int32 bat_cash = 4;
     string logo = 5;
+    bool is_fall = 6;
+    bool is_all_in = 7;
 }
 
 message table_info_sync {
     int32 table_no = 1;
     repeated table_seat_player players = 2;
+    int32 dealer_pos = 3;
+    int32 action_pos = 4;
+    int32 min_bat = 5;
 }
 
 message player_sit_down_req {
@@ -67,7 +72,15 @@ message game_poker_card {
 
 message player_self_info {
     int32 seat_no = 1;
-    game_poker_card first_card = 2;
-    game_poker_card second_card = 3;
+}
+
+message player_hand_card_info {
+    game_poker_card first=1;
+    game_poker_card second =2;
+}
+
+message player_action {
+    int32 action = 1;
+    int32 cash = 2;
 }
 

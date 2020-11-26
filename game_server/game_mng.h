@@ -17,6 +17,10 @@ void game_mng_set_user_disconnect(const std::string &_ssid);
 void game_mng_send_sync_table_info(const std::string &_ssid, const std::string &_data);
 void game_mng_get_user_logo(const std::string &_ssid, std::string *_logo);
 std::string game_mng_get_name(const std::string &_ssid);
+std::string game_mng_get_chrct(const std::string &_ssid);
+void game_mng_send_self_cards_info(const std::string &_ssid);
+void game_mng_proc_player_action(const std::string &_ssid, int _action, int _cash);
+int game_mng_get_table(const std::string &_ssid);
 
 
 #endif // _GAME_MNG_H_

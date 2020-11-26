@@ -6,14 +6,53 @@
             </el-page-header>
         </el-header>
         <el-main>
-            <el-row :gutter="20">
+            <el-row :gutter="10">
                 <el-col :span="8" v-for="player in get_first_line()" :key="player.seat_no">
-                    <EachPlayer :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
+                    <EachPlayer :dealer_pos="dealer_pos" :action_pos="action_pos" :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
+                <el-col :span="8" v-for="player in get_second_line()" :key="player.seat_no">
+                    <EachPlayer :dealer_pos="dealer_pos" :action_pos="action_pos" :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="8" v-for="player in get_second_line()" :key="player.seat_no">
-                    <EachPlayer :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
+                <el-col :span="10">
+                    <el-row v-if="is_player_sit">
+                        <el-col :span="12">
+                            <el-image :src="first_hand_card" fit="fill">
+                                <div slot="error">没牌</div>
+                            </el-image>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-image :src="second_hand_card" fit="fill">
+                                <div slot="error">没牌</div>
+                            </el-image>
+                        </el-col>
+                    </el-row>
+                </el-col>
+                <el-col :span="14">
+                    <div v-if="action_pos == self_seat && self_seat > 0">
+                        <el-slider v-model="bat_cash_value" :min="min_bat_cash*2" :max="self_total_cash()" :step="5">
+                        </el-slider>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-button v-if="self_bat_cash() < min_bat_cash" type="primary" @click="follow_prev_click">跟注</el-button>
+                                <el-button v-else type="primary" @click="follow_prev_click">过牌</el-button>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-button v-if="self_bat_cash() == 0" type="primary" @click="raise_action_click">下注</el-button>
+                                <el-button v-else type="primary" @click="raise_action_click">加注</el-button>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="24">
+                                <el-button type="danger" @click="fall_action_click">弃牌</el-button>
+                            </el-col>
+                        </el-row>
+                    </div>
                 </el-col>
             </el-row>
         </el-main>
@@ -36,6 +75,10 @@ export default {
         return {
             table_no: 0,
             self_seat: -1,
+            dealer_pos: -1,
+            action_pos: -1,
+            bat_cash_value:0,
+            min_bat_cash:0,
             sit_down_player: [],
             get_player_info: function (_seat_no) {
                 return this.sit_down_player[_seat_no];
@@ -58,6 +101,14 @@ export default {
             is_player_sit: false,
             page_title_no: function () {
                 return "桌号：" + this.table_no;
+            },
+            first_hand_card: "",
+            second_hand_card: "",
+            self_total_cash: function() {
+                return this.get_player_info(this.self_seat).total_cash + this.get_player_info(this.self_seat).bat_cash;
+            },
+            self_bat_cash:function () {
+                return this.get_player_info(this.self_seat).bat_cash;
             }
         }
     },
@@ -95,7 +146,47 @@ export default {
         },
         leave_table: function () {
             window.location.replace('/');
-        }
+        },
+        make_hand_card_url: function (_num, _color) {
+            var color_name = "";
+            switch (_color) {
+                case 0:
+                    color_name = "spade";
+                    break;
+                case 1:
+                    color_name = "heart";
+                    break;
+                case 2:
+                    color_name = "club";
+                    break;
+                case 3:
+                    color_name = "diamond";
+                    break;
+
+                default:
+                    break;
+            }
+            var url = "http://www.d8sis.cn/game_resource/cards_imgs/" + color_name + "_" + _num + ".jpg";
+            return url;
+        },
+        follow_prev_click:function () {
+            var action_msg = new messages.player_action();
+            action_msg.setAction(0);
+            action_msg.setCash(this.min_bat_cash);
+            this.send_via_websocket(18, action_msg);
+        },
+        raise_action_click:function() {
+            var action_msg = new messages.player_action();
+            action_msg.setAction(0);
+            action_msg.setCash(this.bat_cash_value);
+            this.send_via_websocket(18, action_msg);
+        },
+        fall_action_click:function() {
+            var action_msg = new messages.player_action();
+            action_msg.setAction(1);
+            action_msg.setCash(0);
+            this.send_via_websocket(18, action_msg);
+        },
     },
     beforeMount: function () {
         var vue_this = this;
@@ -124,6 +215,7 @@ export default {
                 var cur_length = new DataView(from_server_data, 4).getUint32(0);
                 left_length -= cur_length + 8;
                 var cur_type = new DataView(from_server_data, 0).getUint32();
+                var dgram_content = from_server_data.slice(8, cur_length + 8);
                 switch (cur_type) {
                     case 0:
                         var send_data = new messages.sync_session();
@@ -138,11 +230,16 @@ export default {
                                 name: "无玩家",
                                 logo: "",
                                 total_cash: 0,
-                                bat_cash: 0
+                                bat_cash: 0,
+                                is_fall: false,
+                                is_allin: false,
                             });
                         }
-                        var table_info_msg = messages.table_info_sync.deserializeBinary(from_server_data.slice(8));
+                        var table_info_msg = messages.table_info_sync.deserializeBinary(dgram_content);
                         vue_this.table_no = table_info_msg.getTableNo();
+                        vue_this.dealer_pos = table_info_msg.getDealerPos();
+                        vue_this.action_pos = table_info_msg.getActionPos();
+                        vue_this.min_bat_cash = table_info_msg.getMinBat();
                         var all_players = table_info_msg.getPlayersList();
                         all_players.forEach(element => {
                             var cur_seat_no = element.getSeatNo();
@@ -152,17 +249,25 @@ export default {
                                 logo: element.getLogo(),
                                 total_cash: element.getTotalCash(),
                                 bat_cash: element.getBatCash(),
+                                is_fall: element.getIsFall(),
+                                is_allin: element.getIsAllIn(),
                             };
                             vue_this.$set(vue_this.sit_down_player, cur_seat_no, player_got)
                         });
+                        console.log(vue_this);
                         break;
                     case 14:
-                        var self_info_msg = messages.player_self_info.deserializeBinary(from_server_data.slice(8));
+                        var self_info_msg = messages.player_self_info.deserializeBinary(dgram_content);
                         vue_this.self_seat = self_info_msg.getSeatNo();
                         if (vue_this.self_seat == -1)
                             vue_this.is_player_sit = false;
                         else
                             vue_this.is_player_sit = true;
+                        break;
+                    case 17:
+                        var hand_card_info = messages.player_hand_card_info.deserializeBinary(dgram_content);
+                        vue_this.first_hand_card = vue_this.make_hand_card_url(hand_card_info.getFirst().getNumber(), hand_card_info.getFirst().getColor());
+                        vue_this.second_hand_card = vue_this.make_hand_card_url(hand_card_info.getSecond().getNumber(), hand_card_info.getSecond().getColor());
                         break;
                     default:
                         break;

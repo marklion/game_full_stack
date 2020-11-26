@@ -118,6 +118,15 @@ public:
         game_mng_user_stand_up(m_session);
     }
 
+    void proc_player_action(game_msg_type _type, const std::string &_data) {
+        game::player_action req;
+        req.ParseFromString(_data);
+        int action = req.action();
+        int cash = req.cash();
+        g_log.log("recv user:%s action:%d cash:%d", m_session.c_str(), action, cash);
+        game_mng_proc_player_action(m_session, action, cash);
+    }
+
     virtual void proc_data(game_msg_type _type, const std::string &_data)
     {
         auto proc_pf = m_proc_pfs[_type];
@@ -158,6 +167,7 @@ public:
         m_proc_pfs[game_msg_type_sync_session] = &game_channel::proc_data_sync_session;
         m_proc_pfs[game_msg_type_player_sit_down] = &game_channel::proc_sit_down;
         m_proc_pfs[game_msg_type_player_stand_up] = &game_channel::proc_stand_up;
+        m_proc_pfs[game_msg_type_player_action] = &game_channel::proc_player_action;
     }
     void proc_hup()
     {
