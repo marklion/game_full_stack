@@ -35,7 +35,7 @@ static bool game_mng_getupid_acctok(const std::string &_code, std::string *_pupi
 {
     bool ret = false;
     std::string wechat_secret(getenv("WECHAT_SECRET"));
-    std::string req = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx987b51617d4be3ae&secret=" + wechat_secret + "&code=" + _code + "&grant_type=authorization_code";
+    std::string req = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxa390f8b6f68e9c6d&secret=" + wechat_secret + "&code=" + _code + "&grant_type=authorization_code";
     std::string in_buff = game_api_wechat_rest_req(req);
     neb::CJsonObject oJson(in_buff);
 
@@ -56,7 +56,7 @@ static bool game_mng_getupid_acctok(const std::string &_code, std::string *_pupi
 static std::string game_mng_store_logo_to_file(const std::string _logo, const std::string &_upid)
 {
     std::string ret;
-    std::string file_name("http://www.d8sis.cn/game_resource/logo_");
+    std::string file_name("/game_resource/logo_");
     file_name.append(_upid);
     file_name.append(".jpg");
     
@@ -83,7 +83,7 @@ class game_session
     static std::map<std::string, std::string> m_upid_session_map;
     void get_info_from_wechat(const std::string &_upid, const std::string &_acc_tok)
     {
-        std::string req = "https://api.weixin.qq.com/sns/userinfo?access_token=" + _acc_tok + "&openid=" + _upid;
+        std::string req = "https://api.weixin.qq.com/sns/userinfo?access_token=" + _acc_tok + "&openid=" + _upid + "&lang=zh_CN";
         auto in_buff = game_api_wechat_rest_req(req);
 
         g_log.log("user infor:" + in_buff);
@@ -215,7 +215,7 @@ public:
         psession->m_session = game_mng_gen_ssid();
         psession->m_upid = game_mng_gen_ssid();
         psession->m_name = "游客";
-        psession->m_logo = "http://www.d8sis.cn/game_resource/random_user_logo.jpg";
+        psession->m_logo = "/game_resource/random_user_logo.jpg";
         return psession;
     }
     static game_session *get_session(const std::string &_ssid)

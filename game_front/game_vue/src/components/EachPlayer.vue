@@ -7,18 +7,18 @@
         <div>
             {{player_info.name}}
         </div>
-        <hr>
+        <el-divider></el-divider>
         <div>
-            <i class="el-icon-money">{{player_info.total_cash}}</i>
+            <i class="el-icon-money distant-top">{{player_info.total_cash}}</i>
         </div>
         <div>
-            <i class="el-icon-bottom-right">{{player_info.bat_cash}}</i>
+            <i class="el-icon-bottom-right distant1">{{player_info.bat_cash}}</i>
         </div>
-        <el-dialog title="携带金额" :visible.sync="centerDialogVisible" center>
-            <el-row>
+        <el-dialog title="携带金额" :visible.sync="centerDialogVisible" center :modal-append-to-body="false">
+            <el-row style="margin-bottom: 20px">
                 <el-input-number v-model="carry_cash" :step="1000"></el-input-number>
             </el-row>
-            <el-row>
+            <el-row :gutter="10">
                 <el-col :span="12">
                     <el-button @click="centerDialogVisible = false">取 消</el-button>
                 </el-col>
@@ -104,4 +104,10 @@ export default {
 .player_show_class {
     text-align: center;
 }
+
+.el-divider {
+    margin: 5px 0;
+}
+
+@import "../assets/self-defined-style.css";
 </style>

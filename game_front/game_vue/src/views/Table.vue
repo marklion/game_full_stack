@@ -1,12 +1,12 @@
 <template>
 <div>
-    <el-container>
-        <el-header>
+    <el-container class="main-window">
+        <el-header style="height: 5%">
             <el-page-header @back="leave_table" :content="page_title_no()" title="离开">
             </el-page-header>
         </el-header>
-        <el-main>
-            <el-row :gutter="10">
+        <el-main style="height: 87%">
+            <el-row :gutter="10" class="first_line_players">
                 <el-col :span="8" v-for="player in get_first_line()" :key="player.seat_no">
                     <EachPlayer :dealer_pos="dealer_pos" :action_pos="action_pos" :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
                 </el-col>
@@ -56,7 +56,7 @@
                 </el-col>
             </el-row>
         </el-main>
-        <el-footer>
+        <el-footer style="height: 8%">
             <el-button type="danger" @click="player_standup_proc" v-if="is_player_sit">起立</el-button>
         </el-footer>
     </el-container>
@@ -246,7 +246,7 @@ export default {
                             var player_got = {
                                 seat_no: element.getSeatNo(),
                                 name: element.getName(),
-                                logo: element.getLogo(),
+                                logo: 'http://www.d8sis.cn' + element.getLogo(),
                                 total_cash: element.getTotalCash(),
                                 bat_cash: element.getBatCash(),
                                 is_fall: element.getIsFall(),
@@ -296,4 +296,20 @@ export default {
     width: 95%;
     height: 100px;
 }
+
+.main-window {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color:  rgb(253, 246, 236);;
+}
+
+.el-page-header {
+    padding-top:20px;
+}
+
+.first_line_players {
+    margin-bottom: 10px;
+}
+
 </style>

@@ -26,6 +26,7 @@ cp ${SRC_DIR}/nginx_conf/nginx.conf ${BUILD_DIR}/conf
 pushd ${SRC_DIR}/game_front/game_vue
 [ -d node_modules ] || npm install 
 npm run build
+cp ${SRC_DIR}/MP_verify_Xvz7l2CgNLu5ll95.txt ./dist/
 cp ./dist -a ${BUILD_DIR}/
 popd
 

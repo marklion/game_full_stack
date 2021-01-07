@@ -1,53 +1,40 @@
 <template>
 <div class="home">
-    <div v-if="!is_login">
-        <h1>这是首页的所要求的的内容</h1>
+    <h1 class='outlinedB' style="height: 10%">扑克</h1>
+    <div class="main-window" v-if="!is_login">
         <el-row :gutter="20">
-            <el-col :span="12">
-                <el-button type="success" round @click="nav_to_wechat_login">
-                    微信登陆
-                </el-button>
-            </el-col>
-            <el-col :span="12">
-                <el-button type="primary" round @click="nav_to_qq_login">
-                    <img src='http://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_4.png' />
-                </el-button>
-            </el-col>
+            <el-button type="success" round @click="nav_to_wechat_login">
+                微信登陆
+            </el-button>
         </el-row>
         <div>
             <el-button @click="random_login">游客登录</el-button>
         </div>
+        <el-link type="info" href="http://beian.miit.gov.cn" id="beian">京ICP备2020039126号-1</el-link>
     </div>
-    <div v-else>
-        <el-container>
-            <el-header>
+    <div class="main-window" v-else>
+        <el-container style="height: 100%">
+            <el-main style="height: 90%">
+                <el-card class="user_info" :body-style="{ 'background-color': 'rgb(225, 243, 216)'}">
+                    <el-row :gutter="20">
+                        <el-col :span="12">
+                            <el-avatar :src="user_logo" :size="100"></el-avatar>
+                        </el-col>
+                        <el-col :span="12">
+                            <h3 class="dilate">{{user_name}}</h3>
+                            <i class="el-icon-money distant-top">
+                                {{user_cash}}
+                            </i>
+                        </el-col>
+                    </el-row>
+                </el-card>
+                <el-divider></el-divider>
                 <el-row :gutter="20">
-                    <el-col :span="12">
-                        <el-avatar :src="user_logo" :size="50"></el-avatar>
-                    </el-col>
-                    <el-col :span="12">
-                        {{user_name}}
-                    </el-col>
-                </el-row>
-            </el-header>
-            <el-main>
-                <el-row :gutter="20">
-                    <el-col :span="12">
-                        <i class="el-icon-money">当前金额</i>
-                    </el-col>
-                    <el-col :span="12">
-                        {{user_cash}}
-                    </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                    <el-col :span="6">
-                        充值金额
-                    </el-col>
                     <el-col :span="12">
                         <el-input-number v-model="added_cash" :step="1000" :max="50000"></el-input-number>
                     </el-col>
-                    <el-col :span="6">
-                        <el-button type="primary" @click="add_cash">加钱</el-button>
+                    <el-col :span="12">
+                        <el-button type="primary" @click="add_cash">充值</el-button>
                     </el-col>
                 </el-row>
                 <el-row :gutter="20">
@@ -63,26 +50,22 @@
                 </el-row>
                 <el-button type="success" v-if="belong_to_table != -1" @click="re_con_table">重连到{{belong_to_table}}号桌</el-button>
             </el-main>
-            <el-footer>
+            <el-footer style="height: 10%">
                 <el-button type="danger" @click="logoff">退出登录</el-button>
             </el-footer>
         </el-container>
-        <el-dialog :visible.sync="table_no_dialog" width="30%">
-            <span>请输入桌号</span>
-            <span slot="footer" class="dialog-footer">
-                <el-input v-model="table_no_enter" placeholder="请输入桌号"></el-input>
-                <el-row :gutter="20">
-                    <el-col :span="12">
-                        <el-button type="primary" @click="enter_table">确 定</el-button>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-button @click="table_no_dialog= false">取 消</el-button>
-                    </el-col>
-                </el-row>
-            </span>
+        <el-dialog :visible.sync="table_no_dialog" :modal-append-to-body="false" :show-close="false">
+            <el-input v-model="table_no_enter" placeholder="请输入桌号"></el-input>
+            <el-row :gutter="20" style="margin-top: 10px">
+                <el-col :span="12">
+                    <el-button type="primary" @click="enter_table">确 定</el-button>
+                </el-col>
+                <el-col :span="12">
+                    <el-button @click="table_no_dialog= false">取 消</el-button>
+                </el-col>
+            </el-row>
         </el-dialog>
     </div>
-    <el-link type="info" href="http://beian.miit.gov.cn" id="beian">京ICP备2020039126号-1</el-link>
 </div>
 </template>
 
@@ -109,13 +92,7 @@ export default {
     },
     methods: {
         nav_to_wechat_login: function () {
-            window.location.href = "https://open.weixin.qq.com/connect/qrconnect?appid=wx987b51617d4be3ae&redirect_uri=http%3a%2f%2fwww.d8sis.cn%2fwechatlogin&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect";
-        },
-        nav_to_qq_login: function () {
-            QC.Login.showPopup({
-                appId: "101912803",
-                redirectURI: "http://www.d8sis.cn/qqlogin"
-            });
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa390f8b6f68e9c6d&redirect_uri=http%3a%2f%2fwww.d8sis.cn%2fwechatlogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         },
         get_cur_user_info: function () {
             var vue_this = this;
@@ -124,7 +101,7 @@ export default {
                 if (resp.data.result.user_name.length > 0) {
                     Base64.extendString();
                     vue_this.user_name = resp.data.result.user_name.fromBase64();
-                    vue_this.user_logo = resp.data.result.user_logo;
+                    vue_this.user_logo = 'http://www.d8sis.cn' + resp.data.result.user_logo;
                     vue_this.user_cash = resp.data.result.user_cash;
                     vue_this.is_login = true;
                     vue_this.belong_to_table = resp.data.result.table_no;
@@ -246,20 +223,31 @@ export default {
     padding-right: 4px;
 }
 
+.el-main {
+    padding-bottom: 110px;
+}
+
 #beian {
     position: absolute;
     bottom: 0px;
     left: 0px;
 }
 
-.el-main {
-    padding-bottom: 110px;
+.user_info {
+    margin-bottom: 20px;
 }
 
-.el-footer {
-    position: absolute;
-    bottom: 0;
-    width: 95%;
-    height: 100px;
+.home {
+    position: fixed;
+    background-color: rgb(253, 246, 236);
+    height: 100%;
+    width: 100%;
+    text-align: center;
 }
+
+.main-window {
+    height: 90%;
+}
+
+@import "../assets/self-defined-style.css";
 </style>
