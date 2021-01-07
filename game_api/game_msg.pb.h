@@ -1590,344 +1590,6 @@ class table_seat_player PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
-class table_info_sync PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.table_info_sync) */ {
- public:
-  inline table_info_sync() : table_info_sync(nullptr) {}
-  virtual ~table_info_sync();
-
-  table_info_sync(const table_info_sync& from);
-  table_info_sync(table_info_sync&& from) noexcept
-    : table_info_sync() {
-    *this = ::std::move(from);
-  }
-
-  inline table_info_sync& operator=(const table_info_sync& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline table_info_sync& operator=(table_info_sync&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const table_info_sync& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const table_info_sync* internal_default_instance() {
-    return reinterpret_cast<const table_info_sync*>(
-               &_table_info_sync_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    9;
-
-  friend void swap(table_info_sync& a, table_info_sync& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(table_info_sync* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(table_info_sync* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline table_info_sync* New() const final {
-    return CreateMaybeMessage<table_info_sync>(nullptr);
-  }
-
-  table_info_sync* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<table_info_sync>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const table_info_sync& from);
-  void MergeFrom(const table_info_sync& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(table_info_sync* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.table_info_sync";
-  }
-  protected:
-  explicit table_info_sync(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_game_5fmsg_2eproto);
-    return ::descriptor_table_game_5fmsg_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kPlayersFieldNumber = 2,
-    kTableNoFieldNumber = 1,
-    kDealerPosFieldNumber = 3,
-    kActionPosFieldNumber = 4,
-    kMinBatFieldNumber = 5,
-  };
-  // repeated .game.table_seat_player players = 2;
-  int players_size() const;
-  private:
-  int _internal_players_size() const;
-  public:
-  void clear_players();
-  ::game::table_seat_player* mutable_players(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::table_seat_player >*
-      mutable_players();
-  private:
-  const ::game::table_seat_player& _internal_players(int index) const;
-  ::game::table_seat_player* _internal_add_players();
-  public:
-  const ::game::table_seat_player& players(int index) const;
-  ::game::table_seat_player* add_players();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::table_seat_player >&
-      players() const;
-
-  // int32 table_no = 1;
-  void clear_table_no();
-  ::PROTOBUF_NAMESPACE_ID::int32 table_no() const;
-  void set_table_no(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_table_no() const;
-  void _internal_set_table_no(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 dealer_pos = 3;
-  void clear_dealer_pos();
-  ::PROTOBUF_NAMESPACE_ID::int32 dealer_pos() const;
-  void set_dealer_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_dealer_pos() const;
-  void _internal_set_dealer_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 action_pos = 4;
-  void clear_action_pos();
-  ::PROTOBUF_NAMESPACE_ID::int32 action_pos() const;
-  void set_action_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_action_pos() const;
-  void _internal_set_action_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 min_bat = 5;
-  void clear_min_bat();
-  ::PROTOBUF_NAMESPACE_ID::int32 min_bat() const;
-  void set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_min_bat() const;
-  void _internal_set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:game.table_info_sync)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::table_seat_player > players_;
-  ::PROTOBUF_NAMESPACE_ID::int32 table_no_;
-  ::PROTOBUF_NAMESPACE_ID::int32 dealer_pos_;
-  ::PROTOBUF_NAMESPACE_ID::int32 action_pos_;
-  ::PROTOBUF_NAMESPACE_ID::int32 min_bat_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_game_5fmsg_2eproto;
-};
-// -------------------------------------------------------------------
-
-class player_sit_down_req PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.player_sit_down_req) */ {
- public:
-  inline player_sit_down_req() : player_sit_down_req(nullptr) {}
-  virtual ~player_sit_down_req();
-
-  player_sit_down_req(const player_sit_down_req& from);
-  player_sit_down_req(player_sit_down_req&& from) noexcept
-    : player_sit_down_req() {
-    *this = ::std::move(from);
-  }
-
-  inline player_sit_down_req& operator=(const player_sit_down_req& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline player_sit_down_req& operator=(player_sit_down_req&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const player_sit_down_req& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const player_sit_down_req* internal_default_instance() {
-    return reinterpret_cast<const player_sit_down_req*>(
-               &_player_sit_down_req_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    10;
-
-  friend void swap(player_sit_down_req& a, player_sit_down_req& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(player_sit_down_req* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(player_sit_down_req* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline player_sit_down_req* New() const final {
-    return CreateMaybeMessage<player_sit_down_req>(nullptr);
-  }
-
-  player_sit_down_req* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<player_sit_down_req>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const player_sit_down_req& from);
-  void MergeFrom(const player_sit_down_req& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(player_sit_down_req* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "game.player_sit_down_req";
-  }
-  protected:
-  explicit player_sit_down_req(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_game_5fmsg_2eproto);
-    return ::descriptor_table_game_5fmsg_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kSeatNoFieldNumber = 1,
-    kCarryCashFieldNumber = 2,
-  };
-  // int32 seat_no = 1;
-  void clear_seat_no();
-  ::PROTOBUF_NAMESPACE_ID::int32 seat_no() const;
-  void set_seat_no(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_seat_no() const;
-  void _internal_set_seat_no(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 carry_cash = 2;
-  void clear_carry_cash();
-  ::PROTOBUF_NAMESPACE_ID::int32 carry_cash() const;
-  void set_carry_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_carry_cash() const;
-  void _internal_set_carry_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:game.player_sit_down_req)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 seat_no_;
-  ::PROTOBUF_NAMESPACE_ID::int32 carry_cash_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_game_5fmsg_2eproto;
-};
-// -------------------------------------------------------------------
-
 class game_poker_card PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.game_poker_card) */ {
  public:
@@ -1970,7 +1632,7 @@ class game_poker_card PROTOBUF_FINAL :
                &_game_poker_card_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    9;
 
   friend void swap(game_poker_card& a, game_poker_card& b) {
     a.Swap(&b);
@@ -2071,6 +1733,364 @@ class game_poker_card PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::int32 color_;
   ::PROTOBUF_NAMESPACE_ID::int32 number_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fmsg_2eproto;
+};
+// -------------------------------------------------------------------
+
+class table_info_sync PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.table_info_sync) */ {
+ public:
+  inline table_info_sync() : table_info_sync(nullptr) {}
+  virtual ~table_info_sync();
+
+  table_info_sync(const table_info_sync& from);
+  table_info_sync(table_info_sync&& from) noexcept
+    : table_info_sync() {
+    *this = ::std::move(from);
+  }
+
+  inline table_info_sync& operator=(const table_info_sync& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline table_info_sync& operator=(table_info_sync&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const table_info_sync& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const table_info_sync* internal_default_instance() {
+    return reinterpret_cast<const table_info_sync*>(
+               &_table_info_sync_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(table_info_sync& a, table_info_sync& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(table_info_sync* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(table_info_sync* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline table_info_sync* New() const final {
+    return CreateMaybeMessage<table_info_sync>(nullptr);
+  }
+
+  table_info_sync* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<table_info_sync>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const table_info_sync& from);
+  void MergeFrom(const table_info_sync& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(table_info_sync* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.table_info_sync";
+  }
+  protected:
+  explicit table_info_sync(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_game_5fmsg_2eproto);
+    return ::descriptor_table_game_5fmsg_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPlayersFieldNumber = 2,
+    kTableCardsFieldNumber = 6,
+    kTableNoFieldNumber = 1,
+    kDealerPosFieldNumber = 3,
+    kActionPosFieldNumber = 4,
+    kMinBatFieldNumber = 5,
+  };
+  // repeated .game.table_seat_player players = 2;
+  int players_size() const;
+  private:
+  int _internal_players_size() const;
+  public:
+  void clear_players();
+  ::game::table_seat_player* mutable_players(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::table_seat_player >*
+      mutable_players();
+  private:
+  const ::game::table_seat_player& _internal_players(int index) const;
+  ::game::table_seat_player* _internal_add_players();
+  public:
+  const ::game::table_seat_player& players(int index) const;
+  ::game::table_seat_player* add_players();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::table_seat_player >&
+      players() const;
+
+  // repeated .game.game_poker_card table_cards = 6;
+  int table_cards_size() const;
+  private:
+  int _internal_table_cards_size() const;
+  public:
+  void clear_table_cards();
+  ::game::game_poker_card* mutable_table_cards(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::game_poker_card >*
+      mutable_table_cards();
+  private:
+  const ::game::game_poker_card& _internal_table_cards(int index) const;
+  ::game::game_poker_card* _internal_add_table_cards();
+  public:
+  const ::game::game_poker_card& table_cards(int index) const;
+  ::game::game_poker_card* add_table_cards();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::game_poker_card >&
+      table_cards() const;
+
+  // int32 table_no = 1;
+  void clear_table_no();
+  ::PROTOBUF_NAMESPACE_ID::int32 table_no() const;
+  void set_table_no(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_table_no() const;
+  void _internal_set_table_no(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 dealer_pos = 3;
+  void clear_dealer_pos();
+  ::PROTOBUF_NAMESPACE_ID::int32 dealer_pos() const;
+  void set_dealer_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_dealer_pos() const;
+  void _internal_set_dealer_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 action_pos = 4;
+  void clear_action_pos();
+  ::PROTOBUF_NAMESPACE_ID::int32 action_pos() const;
+  void set_action_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_action_pos() const;
+  void _internal_set_action_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 min_bat = 5;
+  void clear_min_bat();
+  ::PROTOBUF_NAMESPACE_ID::int32 min_bat() const;
+  void set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_min_bat() const;
+  void _internal_set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.table_info_sync)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::table_seat_player > players_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::game_poker_card > table_cards_;
+  ::PROTOBUF_NAMESPACE_ID::int32 table_no_;
+  ::PROTOBUF_NAMESPACE_ID::int32 dealer_pos_;
+  ::PROTOBUF_NAMESPACE_ID::int32 action_pos_;
+  ::PROTOBUF_NAMESPACE_ID::int32 min_bat_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fmsg_2eproto;
+};
+// -------------------------------------------------------------------
+
+class player_sit_down_req PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:game.player_sit_down_req) */ {
+ public:
+  inline player_sit_down_req() : player_sit_down_req(nullptr) {}
+  virtual ~player_sit_down_req();
+
+  player_sit_down_req(const player_sit_down_req& from);
+  player_sit_down_req(player_sit_down_req&& from) noexcept
+    : player_sit_down_req() {
+    *this = ::std::move(from);
+  }
+
+  inline player_sit_down_req& operator=(const player_sit_down_req& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline player_sit_down_req& operator=(player_sit_down_req&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const player_sit_down_req& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const player_sit_down_req* internal_default_instance() {
+    return reinterpret_cast<const player_sit_down_req*>(
+               &_player_sit_down_req_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(player_sit_down_req& a, player_sit_down_req& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(player_sit_down_req* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(player_sit_down_req* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline player_sit_down_req* New() const final {
+    return CreateMaybeMessage<player_sit_down_req>(nullptr);
+  }
+
+  player_sit_down_req* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<player_sit_down_req>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const player_sit_down_req& from);
+  void MergeFrom(const player_sit_down_req& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(player_sit_down_req* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "game.player_sit_down_req";
+  }
+  protected:
+  explicit player_sit_down_req(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_game_5fmsg_2eproto);
+    return ::descriptor_table_game_5fmsg_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSeatNoFieldNumber = 1,
+    kCarryCashFieldNumber = 2,
+  };
+  // int32 seat_no = 1;
+  void clear_seat_no();
+  ::PROTOBUF_NAMESPACE_ID::int32 seat_no() const;
+  void set_seat_no(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_seat_no() const;
+  void _internal_set_seat_no(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 carry_cash = 2;
+  void clear_carry_cash();
+  ::PROTOBUF_NAMESPACE_ID::int32 carry_cash() const;
+  void set_carry_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_carry_cash() const;
+  void _internal_set_carry_cash(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:game.player_sit_down_req)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 seat_no_;
+  ::PROTOBUF_NAMESPACE_ID::int32 carry_cash_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fmsg_2eproto;
 };
@@ -3470,6 +3490,50 @@ inline void table_seat_player::set_is_all_in(bool value) {
 
 // -------------------------------------------------------------------
 
+// game_poker_card
+
+// int32 color = 1;
+inline void game_poker_card::clear_color() {
+  color_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 game_poker_card::_internal_color() const {
+  return color_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 game_poker_card::color() const {
+  // @@protoc_insertion_point(field_get:game.game_poker_card.color)
+  return _internal_color();
+}
+inline void game_poker_card::_internal_set_color(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  color_ = value;
+}
+inline void game_poker_card::set_color(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_color(value);
+  // @@protoc_insertion_point(field_set:game.game_poker_card.color)
+}
+
+// int32 number = 2;
+inline void game_poker_card::clear_number() {
+  number_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 game_poker_card::_internal_number() const {
+  return number_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 game_poker_card::number() const {
+  // @@protoc_insertion_point(field_get:game.game_poker_card.number)
+  return _internal_number();
+}
+inline void game_poker_card::_internal_set_number(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  number_ = value;
+}
+inline void game_poker_card::set_number(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_number(value);
+  // @@protoc_insertion_point(field_set:game.game_poker_card.number)
+}
+
+// -------------------------------------------------------------------
+
 // table_info_sync
 
 // int32 table_no = 1;
@@ -3591,6 +3655,45 @@ inline void table_info_sync::set_min_bat(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:game.table_info_sync.min_bat)
 }
 
+// repeated .game.game_poker_card table_cards = 6;
+inline int table_info_sync::_internal_table_cards_size() const {
+  return table_cards_.size();
+}
+inline int table_info_sync::table_cards_size() const {
+  return _internal_table_cards_size();
+}
+inline void table_info_sync::clear_table_cards() {
+  table_cards_.Clear();
+}
+inline ::game::game_poker_card* table_info_sync::mutable_table_cards(int index) {
+  // @@protoc_insertion_point(field_mutable:game.table_info_sync.table_cards)
+  return table_cards_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::game_poker_card >*
+table_info_sync::mutable_table_cards() {
+  // @@protoc_insertion_point(field_mutable_list:game.table_info_sync.table_cards)
+  return &table_cards_;
+}
+inline const ::game::game_poker_card& table_info_sync::_internal_table_cards(int index) const {
+  return table_cards_.Get(index);
+}
+inline const ::game::game_poker_card& table_info_sync::table_cards(int index) const {
+  // @@protoc_insertion_point(field_get:game.table_info_sync.table_cards)
+  return _internal_table_cards(index);
+}
+inline ::game::game_poker_card* table_info_sync::_internal_add_table_cards() {
+  return table_cards_.Add();
+}
+inline ::game::game_poker_card* table_info_sync::add_table_cards() {
+  // @@protoc_insertion_point(field_add:game.table_info_sync.table_cards)
+  return _internal_add_table_cards();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::game::game_poker_card >&
+table_info_sync::table_cards() const {
+  // @@protoc_insertion_point(field_list:game.table_info_sync.table_cards)
+  return table_cards_;
+}
+
 // -------------------------------------------------------------------
 
 // player_sit_down_req
@@ -3633,50 +3736,6 @@ inline void player_sit_down_req::_internal_set_carry_cash(::PROTOBUF_NAMESPACE_I
 inline void player_sit_down_req::set_carry_cash(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_carry_cash(value);
   // @@protoc_insertion_point(field_set:game.player_sit_down_req.carry_cash)
-}
-
-// -------------------------------------------------------------------
-
-// game_poker_card
-
-// int32 color = 1;
-inline void game_poker_card::clear_color() {
-  color_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 game_poker_card::_internal_color() const {
-  return color_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 game_poker_card::color() const {
-  // @@protoc_insertion_point(field_get:game.game_poker_card.color)
-  return _internal_color();
-}
-inline void game_poker_card::_internal_set_color(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  color_ = value;
-}
-inline void game_poker_card::set_color(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_color(value);
-  // @@protoc_insertion_point(field_set:game.game_poker_card.color)
-}
-
-// int32 number = 2;
-inline void game_poker_card::clear_number() {
-  number_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 game_poker_card::_internal_number() const {
-  return number_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 game_poker_card::number() const {
-  // @@protoc_insertion_point(field_get:game.game_poker_card.number)
-  return _internal_number();
-}
-inline void game_poker_card::_internal_set_number(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  number_ = value;
-}
-inline void game_poker_card::set_number(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_number(value);
-  // @@protoc_insertion_point(field_set:game.game_poker_card.number)
 }
 
 // -------------------------------------------------------------------

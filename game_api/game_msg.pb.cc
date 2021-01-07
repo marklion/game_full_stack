@@ -53,6 +53,10 @@ class table_seat_playerDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<table_seat_player> _instance;
 } _table_seat_player_default_instance_;
+class game_poker_cardDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<game_poker_card> _instance;
+} _game_poker_card_default_instance_;
 class table_info_syncDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<table_info_sync> _instance;
@@ -61,10 +65,6 @@ class player_sit_down_reqDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<player_sit_down_req> _instance;
 } _player_sit_down_req_default_instance_;
-class game_poker_cardDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<game_poker_card> _instance;
-} _game_poker_card_default_instance_;
 class player_self_infoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<player_self_info> _instance;
@@ -216,9 +216,10 @@ static void InitDefaultsscc_info_table_info_sync_game_5fmsg_2eproto() {
   ::game::table_info_sync::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_table_info_sync_game_5fmsg_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_table_info_sync_game_5fmsg_2eproto}, {
-      &scc_info_table_seat_player_game_5fmsg_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<2> scc_info_table_info_sync_game_5fmsg_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 2, 0, InitDefaultsscc_info_table_info_sync_game_5fmsg_2eproto}, {
+      &scc_info_table_seat_player_game_5fmsg_2eproto.base,
+      &scc_info_game_poker_card_game_5fmsg_2eproto.base,}};
 
 static void InitDefaultsscc_info_table_seat_player_game_5fmsg_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -365,6 +366,13 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fmsg_2eproto::offsets[] 
   PROTOBUF_FIELD_OFFSET(::game::table_seat_player, is_fall_),
   PROTOBUF_FIELD_OFFSET(::game::table_seat_player, is_all_in_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::game::game_poker_card, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::game::game_poker_card, color_),
+  PROTOBUF_FIELD_OFFSET(::game::game_poker_card, number_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::game::table_info_sync, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -374,6 +382,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fmsg_2eproto::offsets[] 
   PROTOBUF_FIELD_OFFSET(::game::table_info_sync, dealer_pos_),
   PROTOBUF_FIELD_OFFSET(::game::table_info_sync, action_pos_),
   PROTOBUF_FIELD_OFFSET(::game::table_info_sync, min_bat_),
+  PROTOBUF_FIELD_OFFSET(::game::table_info_sync, table_cards_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::game::player_sit_down_req, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -381,13 +390,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fmsg_2eproto::offsets[] 
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::game::player_sit_down_req, seat_no_),
   PROTOBUF_FIELD_OFFSET(::game::player_sit_down_req, carry_cash_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::game::game_poker_card, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::game::game_poker_card, color_),
-  PROTOBUF_FIELD_OFFSET(::game::game_poker_card, number_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::game::player_self_info, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -419,12 +421,12 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 43, -1, sizeof(::game::add_cash_req)},
   { 50, -1, sizeof(::game::create_table_resp)},
   { 57, -1, sizeof(::game::table_seat_player)},
-  { 69, -1, sizeof(::game::table_info_sync)},
-  { 79, -1, sizeof(::game::player_sit_down_req)},
-  { 86, -1, sizeof(::game::game_poker_card)},
-  { 93, -1, sizeof(::game::player_self_info)},
-  { 99, -1, sizeof(::game::player_hand_card_info)},
-  { 106, -1, sizeof(::game::player_action)},
+  { 69, -1, sizeof(::game::game_poker_card)},
+  { 76, -1, sizeof(::game::table_info_sync)},
+  { 87, -1, sizeof(::game::player_sit_down_req)},
+  { 94, -1, sizeof(::game::player_self_info)},
+  { 100, -1, sizeof(::game::player_hand_card_info)},
+  { 107, -1, sizeof(::game::player_action)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -437,9 +439,9 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_add_cash_req_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_create_table_resp_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_table_seat_player_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_game_poker_card_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_table_info_sync_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_player_sit_down_req_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_game_poker_card_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_player_self_info_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_player_hand_card_info_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::game::_player_action_default_instance_),
@@ -460,18 +462,19 @@ const char descriptor_table_protodef_game_5fmsg_2eproto[] PROTOBUF_SECTION_VARIA
   "\030\002 \001(\005\"\212\001\n\021table_seat_player\022\017\n\007seat_no\030"
   "\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\022\n\ntotal_cash\030\003 \001(\005\022"
   "\020\n\010bat_cash\030\004 \001(\005\022\014\n\004logo\030\005 \001(\t\022\017\n\007is_fa"
-  "ll\030\006 \001(\010\022\021\n\tis_all_in\030\007 \001(\010\"\206\001\n\017table_in"
-  "fo_sync\022\020\n\010table_no\030\001 \001(\005\022(\n\007players\030\002 \003"
-  "(\0132\027.game.table_seat_player\022\022\n\ndealer_po"
-  "s\030\003 \001(\005\022\022\n\naction_pos\030\004 \001(\005\022\017\n\007min_bat\030\005"
-  " \001(\005\":\n\023player_sit_down_req\022\017\n\007seat_no\030\001"
-  " \001(\005\022\022\n\ncarry_cash\030\002 \001(\005\"0\n\017game_poker_c"
-  "ard\022\r\n\005color\030\001 \001(\005\022\016\n\006number\030\002 \001(\005\"#\n\020pl"
-  "ayer_self_info\022\017\n\007seat_no\030\001 \001(\005\"d\n\025playe"
-  "r_hand_card_info\022$\n\005first\030\001 \001(\0132\025.game.g"
-  "ame_poker_card\022%\n\006second\030\002 \001(\0132\025.game.ga"
-  "me_poker_card\"-\n\rplayer_action\022\016\n\006action"
-  "\030\001 \001(\005\022\014\n\004cash\030\002 \001(\005b\006proto3"
+  "ll\030\006 \001(\010\022\021\n\tis_all_in\030\007 \001(\010\"0\n\017game_poke"
+  "r_card\022\r\n\005color\030\001 \001(\005\022\016\n\006number\030\002 \001(\005\"\262\001"
+  "\n\017table_info_sync\022\020\n\010table_no\030\001 \001(\005\022(\n\007p"
+  "layers\030\002 \003(\0132\027.game.table_seat_player\022\022\n"
+  "\ndealer_pos\030\003 \001(\005\022\022\n\naction_pos\030\004 \001(\005\022\017\n"
+  "\007min_bat\030\005 \001(\005\022*\n\013table_cards\030\006 \003(\0132\025.ga"
+  "me.game_poker_card\":\n\023player_sit_down_re"
+  "q\022\017\n\007seat_no\030\001 \001(\005\022\022\n\ncarry_cash\030\002 \001(\005\"#"
+  "\n\020player_self_info\022\017\n\007seat_no\030\001 \001(\005\"d\n\025p"
+  "layer_hand_card_info\022$\n\005first\030\001 \001(\0132\025.ga"
+  "me.game_poker_card\022%\n\006second\030\002 \001(\0132\025.gam"
+  "e.game_poker_card\"-\n\rplayer_action\022\016\n\006ac"
+  "tion\030\001 \001(\005\022\014\n\004cash\030\002 \001(\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fmsg_2eproto_deps[1] = {
 };
@@ -494,7 +497,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_gam
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fmsg_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fmsg_2eproto = {
-  false, false, descriptor_table_protodef_game_5fmsg_2eproto, "game_msg.proto", 1028,
+  false, false, descriptor_table_protodef_game_5fmsg_2eproto, "game_msg.proto", 1072,
   &descriptor_table_game_5fmsg_2eproto_once, descriptor_table_game_5fmsg_2eproto_sccs, descriptor_table_game_5fmsg_2eproto_deps, 15, 0,
   schemas, file_default_instances, TableStruct_game_5fmsg_2eproto::offsets,
   file_level_metadata_game_5fmsg_2eproto, 15, file_level_enum_descriptors_game_5fmsg_2eproto, file_level_service_descriptors_game_5fmsg_2eproto,
@@ -2796,6 +2799,237 @@ void table_seat_player::InternalSwap(table_seat_player* other) {
 
 // ===================================================================
 
+void game_poker_card::InitAsDefaultInstance() {
+}
+class game_poker_card::_Internal {
+ public:
+};
+
+game_poker_card::game_poker_card(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:game.game_poker_card)
+}
+game_poker_card::game_poker_card(const game_poker_card& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&color_, &from.color_,
+    static_cast<size_t>(reinterpret_cast<char*>(&number_) -
+    reinterpret_cast<char*>(&color_)) + sizeof(number_));
+  // @@protoc_insertion_point(copy_constructor:game.game_poker_card)
+}
+
+void game_poker_card::SharedCtor() {
+  ::memset(&color_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&number_) -
+      reinterpret_cast<char*>(&color_)) + sizeof(number_));
+}
+
+game_poker_card::~game_poker_card() {
+  // @@protoc_insertion_point(destructor:game.game_poker_card)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void game_poker_card::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void game_poker_card::ArenaDtor(void* object) {
+  game_poker_card* _this = reinterpret_cast< game_poker_card* >(object);
+  (void)_this;
+}
+void game_poker_card::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void game_poker_card::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const game_poker_card& game_poker_card::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_game_poker_card_game_5fmsg_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void game_poker_card::Clear() {
+// @@protoc_insertion_point(message_clear_start:game.game_poker_card)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&color_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&number_) -
+      reinterpret_cast<char*>(&color_)) + sizeof(number_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* game_poker_card::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // int32 color = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          color_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 number = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          number_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* game_poker_card::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:game.game_poker_card)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 color = 1;
+  if (this->color() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_color(), target);
+  }
+
+  // int32 number = 2;
+  if (this->number() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_number(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:game.game_poker_card)
+  return target;
+}
+
+size_t game_poker_card::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:game.game_poker_card)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 color = 1;
+  if (this->color() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_color());
+  }
+
+  // int32 number = 2;
+  if (this->number() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_number());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void game_poker_card::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:game.game_poker_card)
+  GOOGLE_DCHECK_NE(&from, this);
+  const game_poker_card* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<game_poker_card>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:game.game_poker_card)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:game.game_poker_card)
+    MergeFrom(*source);
+  }
+}
+
+void game_poker_card::MergeFrom(const game_poker_card& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:game.game_poker_card)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.color() != 0) {
+    _internal_set_color(from._internal_color());
+  }
+  if (from.number() != 0) {
+    _internal_set_number(from._internal_number());
+  }
+}
+
+void game_poker_card::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:game.game_poker_card)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void game_poker_card::CopyFrom(const game_poker_card& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:game.game_poker_card)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool game_poker_card::IsInitialized() const {
+  return true;
+}
+
+void game_poker_card::InternalSwap(game_poker_card* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(game_poker_card, number_)
+      + sizeof(game_poker_card::number_)
+      - PROTOBUF_FIELD_OFFSET(game_poker_card, color_)>(
+          reinterpret_cast<char*>(&color_),
+          reinterpret_cast<char*>(&other->color_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata game_poker_card::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
 void table_info_sync::InitAsDefaultInstance() {
 }
 class table_info_sync::_Internal {
@@ -2804,14 +3038,16 @@ class table_info_sync::_Internal {
 
 table_info_sync::table_info_sync(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena),
-  players_(arena) {
+  players_(arena),
+  table_cards_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:game.table_info_sync)
 }
 table_info_sync::table_info_sync(const table_info_sync& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      players_(from.players_) {
+      players_(from.players_),
+      table_cards_(from.table_cards_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&table_no_, &from.table_no_,
     static_cast<size_t>(reinterpret_cast<char*>(&min_bat_) -
@@ -2858,6 +3094,7 @@ void table_info_sync::Clear() {
   (void) cached_has_bits;
 
   players_.Clear();
+  table_cards_.Clear();
   ::memset(&table_no_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&min_bat_) -
       reinterpret_cast<char*>(&table_no_)) + sizeof(min_bat_));
@@ -2910,6 +3147,18 @@ const char* table_info_sync::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           min_bat_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated .game.game_poker_card table_cards = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_table_cards(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<50>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -2972,6 +3221,14 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_min_bat(), target);
   }
 
+  // repeated .game.game_poker_card table_cards = 6;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_table_cards_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(6, this->_internal_table_cards(i), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2991,6 +3248,13 @@ size_t table_info_sync::ByteSizeLong() const {
   // repeated .game.table_seat_player players = 2;
   total_size += 1UL * this->_internal_players_size();
   for (const auto& msg : this->players_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .game.game_poker_card table_cards = 6;
+  total_size += 1UL * this->_internal_table_cards_size();
+  for (const auto& msg : this->table_cards_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
@@ -3055,6 +3319,7 @@ void table_info_sync::MergeFrom(const table_info_sync& from) {
   (void) cached_has_bits;
 
   players_.MergeFrom(from.players_);
+  table_cards_.MergeFrom(from.table_cards_);
   if (from.table_no() != 0) {
     _internal_set_table_no(from._internal_table_no());
   }
@@ -3091,6 +3356,7 @@ void table_info_sync::InternalSwap(table_info_sync* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   players_.InternalSwap(&other->players_);
+  table_cards_.InternalSwap(&other->table_cards_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(table_info_sync, min_bat_)
       + sizeof(table_info_sync::min_bat_)
@@ -3331,237 +3597,6 @@ void player_sit_down_req::InternalSwap(player_sit_down_req* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata player_sit_down_req::GetMetadata() const {
-  return GetMetadataStatic();
-}
-
-
-// ===================================================================
-
-void game_poker_card::InitAsDefaultInstance() {
-}
-class game_poker_card::_Internal {
- public:
-};
-
-game_poker_card::game_poker_card(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:game.game_poker_card)
-}
-game_poker_card::game_poker_card(const game_poker_card& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&color_, &from.color_,
-    static_cast<size_t>(reinterpret_cast<char*>(&number_) -
-    reinterpret_cast<char*>(&color_)) + sizeof(number_));
-  // @@protoc_insertion_point(copy_constructor:game.game_poker_card)
-}
-
-void game_poker_card::SharedCtor() {
-  ::memset(&color_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&number_) -
-      reinterpret_cast<char*>(&color_)) + sizeof(number_));
-}
-
-game_poker_card::~game_poker_card() {
-  // @@protoc_insertion_point(destructor:game.game_poker_card)
-  SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-void game_poker_card::SharedDtor() {
-  GOOGLE_DCHECK(GetArena() == nullptr);
-}
-
-void game_poker_card::ArenaDtor(void* object) {
-  game_poker_card* _this = reinterpret_cast< game_poker_card* >(object);
-  (void)_this;
-}
-void game_poker_card::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
-void game_poker_card::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const game_poker_card& game_poker_card::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_game_poker_card_game_5fmsg_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void game_poker_card::Clear() {
-// @@protoc_insertion_point(message_clear_start:game.game_poker_card)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  ::memset(&color_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&number_) -
-      reinterpret_cast<char*>(&color_)) + sizeof(number_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* game_poker_card::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-    switch (tag >> 3) {
-      // int32 color = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          color_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // int32 number = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          number_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* game_poker_card::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:game.game_poker_card)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int32 color = 1;
-  if (this->color() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_color(), target);
-  }
-
-  // int32 number = 2;
-  if (this->number() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_number(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:game.game_poker_card)
-  return target;
-}
-
-size_t game_poker_card::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:game.game_poker_card)
-  size_t total_size = 0;
-
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // int32 color = 1;
-  if (this->color() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_color());
-  }
-
-  // int32 number = 2;
-  if (this->number() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_number());
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void game_poker_card::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:game.game_poker_card)
-  GOOGLE_DCHECK_NE(&from, this);
-  const game_poker_card* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<game_poker_card>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:game.game_poker_card)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:game.game_poker_card)
-    MergeFrom(*source);
-  }
-}
-
-void game_poker_card::MergeFrom(const game_poker_card& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:game.game_poker_card)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.color() != 0) {
-    _internal_set_color(from._internal_color());
-  }
-  if (from.number() != 0) {
-    _internal_set_number(from._internal_number());
-  }
-}
-
-void game_poker_card::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:game.game_poker_card)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void game_poker_card::CopyFrom(const game_poker_card& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:game.game_poker_card)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool game_poker_card::IsInitialized() const {
-  return true;
-}
-
-void game_poker_card::InternalSwap(game_poker_card* other) {
-  using std::swap;
-  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(game_poker_card, number_)
-      + sizeof(game_poker_card::number_)
-      - PROTOBUF_FIELD_OFFSET(game_poker_card, color_)>(
-          reinterpret_cast<char*>(&color_),
-          reinterpret_cast<char*>(&other->color_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata game_poker_card::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -4288,14 +4323,14 @@ template<> PROTOBUF_NOINLINE ::game::create_table_resp* Arena::CreateMaybeMessag
 template<> PROTOBUF_NOINLINE ::game::table_seat_player* Arena::CreateMaybeMessage< ::game::table_seat_player >(Arena* arena) {
   return Arena::CreateMessageInternal< ::game::table_seat_player >(arena);
 }
+template<> PROTOBUF_NOINLINE ::game::game_poker_card* Arena::CreateMaybeMessage< ::game::game_poker_card >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::game::game_poker_card >(arena);
+}
 template<> PROTOBUF_NOINLINE ::game::table_info_sync* Arena::CreateMaybeMessage< ::game::table_info_sync >(Arena* arena) {
   return Arena::CreateMessageInternal< ::game::table_info_sync >(arena);
 }
 template<> PROTOBUF_NOINLINE ::game::player_sit_down_req* Arena::CreateMaybeMessage< ::game::player_sit_down_req >(Arena* arena) {
   return Arena::CreateMessageInternal< ::game::player_sit_down_req >(arena);
-}
-template<> PROTOBUF_NOINLINE ::game::game_poker_card* Arena::CreateMaybeMessage< ::game::game_poker_card >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::game::game_poker_card >(arena);
 }
 template<> PROTOBUF_NOINLINE ::game::player_self_info* Arena::CreateMaybeMessage< ::game::player_self_info >(Arena* arena) {
   return Arena::CreateMessageInternal< ::game::player_self_info >(arena);

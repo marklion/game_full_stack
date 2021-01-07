@@ -52,12 +52,18 @@ message table_seat_player {
     bool is_all_in = 7;
 }
 
+message game_poker_card {
+    int32 color = 1;
+    int32 number = 2;
+}
+
 message table_info_sync {
     int32 table_no = 1;
     repeated table_seat_player players = 2;
     int32 dealer_pos = 3;
     int32 action_pos = 4;
     int32 min_bat = 5;
+    repeated game_poker_card table_cards = 6;
 }
 
 message player_sit_down_req {
@@ -65,10 +71,7 @@ message player_sit_down_req {
     int32 carry_cash = 2;
 }
 
-message game_poker_card {
-    int32 color = 1;
-    int32 number = 2;
-}
+
 
 message player_self_info {
     int32 seat_no = 1;

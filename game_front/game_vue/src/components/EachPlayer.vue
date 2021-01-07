@@ -1,18 +1,21 @@
 <template>
-<div class="each_player">
-    <el-card :body-style="{ padding: '3px' }" class="player_show_class" :style="seat_no_background(seat_no)">
+<div class="each_player" style="height: 100%">
+    <el-card :body-style="{ padding: '3px' }" class="player_show_class" :style="seat_no_background(seat_no)" style="height: 100%">
         <div>
             <el-avatar :src="player_info.logo" :size="50"></el-avatar>
         </div>
         <div>
             {{player_info.name}}
         </div>
-        <el-divider></el-divider>
-        <div>
-            <i class="el-icon-money distant-top">{{player_info.total_cash}}</i>
-        </div>
-        <div>
-            <i class="el-icon-bottom-right distant1">{{player_info.bat_cash}}</i>
+        <el-button @click="centerDialogVisible = true" v-if="need_show_sit_down()">坐下</el-button>
+        <div v-else>
+            <div>
+                <i class="el-icon-money distant-top">{{player_info.total_cash}}</i>
+            </div>
+            <div>
+                <i class="el-icon-bottom-right distant1">{{player_info.bat_cash}}</i>
+            </div>
+
         </div>
         <el-dialog title="携带金额" :visible.sync="centerDialogVisible" center :modal-append-to-body="false">
             <el-row style="margin-bottom: 20px">
@@ -27,7 +30,6 @@
                 </el-col>
             </el-row>
         </el-dialog>
-        <el-button @click="centerDialogVisible = true" v-if="need_show_sit_down()">坐下</el-button>
     </el-card>
 </div>
 </template>
@@ -58,17 +60,17 @@ export default {
                 else
                     return false;
             },
-            seat_no_background:function(_seat_no) {
+            seat_no_background: function (_seat_no) {
                 var seat_no_show = _seat_no + 1;
-                var img_url = "http://www.d8sis.cn/game_resource/number_background/red_num_0"+seat_no_show+".png";
+                var img_url = "http://www.d8sis.cn/game_resource/number_background/red_num_0" + seat_no_show + ".png";
                 var color = 'lightgoldenrodyellow';
 
-                return { 
-                    background: "url(" + img_url + ")", 
-                    'background-size': 'auto ' + "15%", 
-                    'background-repeat': "no-repeat", 
+                return {
+                    background: "url(" + img_url + ")",
+                    'background-size': 'auto ' + "15%",
+                    'background-repeat': "no-repeat",
                     'background-color': color
-                };           
+                };
             },
         }
     },
@@ -101,6 +103,7 @@ export default {
 .money_show_class {
     line-height: 20%;
 }
+
 .player_show_class {
     text-align: center;
 }

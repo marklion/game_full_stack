@@ -5,51 +5,55 @@
             <el-page-header @back="leave_table" :content="page_title_no()" title="离开">
             </el-page-header>
         </el-header>
-        <el-main style="height: 87%">
-            <el-row :gutter="10" class="first_line_players">
-                <el-col :span="8" v-for="player in get_first_line()" :key="player.seat_no">
-                    <EachPlayer :dealer_pos="dealer_pos" :action_pos="action_pos" :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
-                </el-col>
-            </el-row>
-            <el-row :gutter="10">
-                <el-col :span="8" v-for="player in get_second_line()" :key="player.seat_no">
-                    <EachPlayer :dealer_pos="dealer_pos" :action_pos="action_pos" :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20">
-                <el-col :span="10">
-                    <el-row v-if="is_player_sit">
-                        <el-col :span="12">
-                            <el-image :src="first_hand_card" fit="fill">
-                                <div slot="error">没牌</div>
-                            </el-image>
+        <el-main>
+            <div style="height: 60%">
+                <el-row :gutter="10" class="first_line_players" style="height: 45%">
+                    <el-col :span="8" v-for="player in get_first_line()" :key="player.seat_no" style="height: 100%">
+                        <EachPlayer :dealer_pos="dealer_pos" :action_pos="action_pos" :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="10" style="height: 45%">
+                    <el-col :span="8" v-for="player in get_second_line()" :key="player.seat_no" style="height: 100%">
+                        <EachPlayer :dealer_pos="dealer_pos" :action_pos="action_pos" :seat_no="player.seat_no" :player_info="get_player_info(player.seat_no)" :sit_down_proc_in="player_sit_down_proc" :show_sit_down="!is_player_sit"></EachPlayer>
+                    </el-col>
+                </el-row>
+            </div>
+            <div style="height: 20%">
+                <el-row :gutter="4" style="height: 70%">
+                    <el-col :span="4" style="height: 100%">
+                        <p>主池</p>
+                    </el-col>
+                    <el-col :span="4" v-for="one_card in table_cards" :key="one_card" style="height: 100%">
+                        <SingleCard :card_link="one_card"></SingleCard>
+                    </el-col>
+                </el-row>
+            </div>
+            <el-row :gutter="10" style="height: 20%">
+                <el-col :span="15" style="height: 100%">
+                    <el-row v-if="is_player_sit" style="height: 100%">
+                        <el-col :span="12" style="height: 100%">
+                            <SingleCard :card_link="first_hand_card">
+                            </SingleCard>
                         </el-col>
-                        <el-col :span="12">
-                            <el-image :src="second_hand_card" fit="fill">
-                                <div slot="error">没牌</div>
-                            </el-image>
+                        <el-col :span="12" style="height: 100%">
+                            <SingleCard :card_link="second_hand_card">
+                            </SingleCard>
                         </el-col>
                     </el-row>
                 </el-col>
-                <el-col :span="14">
-                    <div v-if="action_pos == self_seat && self_seat > 0">
-                        <el-slider v-model="bat_cash_value" :min="min_bat_cash*2" :max="self_total_cash()" :step="5">
-                        </el-slider>
-                        <el-row>
-                            <el-col :span="24">
-                                <el-button v-if="self_bat_cash() < min_bat_cash" type="primary" @click="follow_prev_click">跟注</el-button>
-                                <el-button v-else type="primary" @click="follow_prev_click">过牌</el-button>
+                <el-col :span="6" style="height: 100%">
+                    <div v-if="action_pos == self_seat && self_seat > 0" style="height: 100%">
+                        <el-row :gutter="10" style="height: 100%">
+                            <el-col :span="20" style="height: 100%">
+                                <el-button style="height: 31%; margin-bottom: 3%" v-if="self_bat_cash() < min_bat_cash" type="primary" @click="follow_prev_click">跟注</el-button>
+                                <el-button style="height: 31%; margin-bottom: 3%" v-else type="primary" @click="follow_prev_click">过牌</el-button>
+                                <el-button style="height: 31%; margin-bottom: 3%" v-if="self_bat_cash() == 0" type="primary" @click="raise_action_click">下注</el-button>
+                                <el-button style="height: 31%; margin-bottom: 3%" v-else type="primary" @click="raise_action_click">加注</el-button>
+                                <el-button style="height: 31%;" type="danger" @click="fall_action_click">弃牌</el-button>
                             </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="24">
-                                <el-button v-if="self_bat_cash() == 0" type="primary" @click="raise_action_click">下注</el-button>
-                                <el-button v-else type="primary" @click="raise_action_click">加注</el-button>
-                            </el-col>
-                        </el-row>
-                        <el-row>
-                            <el-col :span="24">
-                                <el-button type="danger" @click="fall_action_click">弃牌</el-button>
+                            <el-col :span="4" style="height: 100%">
+                                <el-slider v-model="bat_cash_value" :min="min_bat_cash*2" :max="self_total_cash()" :step="5" vertical height="100%" style="height: 100%">
+                                </el-slider>
                             </el-col>
                         </el-row>
                     </div>
@@ -66,10 +70,12 @@
 <script>
 import messages from '../game_msg_pb'
 import EachPlayer from '@/components/EachPlayer.vue'
+import SingleCard from '@/components/SingleCard.vue'
 export default {
     name: 'Table',
     components: {
-        EachPlayer
+        EachPlayer,
+        SingleCard
     },
     data: function () {
         return {
@@ -77,9 +83,10 @@ export default {
             self_seat: -1,
             dealer_pos: -1,
             action_pos: -1,
-            bat_cash_value:0,
-            min_bat_cash:0,
+            bat_cash_value: 0,
+            min_bat_cash: 0,
             sit_down_player: [],
+            table_cards: ["", "", "", "", ""],
             get_player_info: function (_seat_no) {
                 return this.sit_down_player[_seat_no];
             },
@@ -104,10 +111,10 @@ export default {
             },
             first_hand_card: "",
             second_hand_card: "",
-            self_total_cash: function() {
+            self_total_cash: function () {
                 return this.get_player_info(this.self_seat).total_cash + this.get_player_info(this.self_seat).bat_cash;
             },
-            self_bat_cash:function () {
+            self_bat_cash: function () {
                 return this.get_player_info(this.self_seat).bat_cash;
             }
         }
@@ -169,19 +176,19 @@ export default {
             var url = "http://www.d8sis.cn/game_resource/cards_imgs/" + color_name + "_" + _num + ".jpg";
             return url;
         },
-        follow_prev_click:function () {
+        follow_prev_click: function () {
             var action_msg = new messages.player_action();
             action_msg.setAction(0);
             action_msg.setCash(this.min_bat_cash);
             this.send_via_websocket(18, action_msg);
         },
-        raise_action_click:function() {
+        raise_action_click: function () {
             var action_msg = new messages.player_action();
             action_msg.setAction(0);
             action_msg.setCash(this.bat_cash_value);
             this.send_via_websocket(18, action_msg);
         },
-        fall_action_click:function() {
+        fall_action_click: function () {
             var action_msg = new messages.player_action();
             action_msg.setAction(1);
             action_msg.setCash(0);
@@ -240,6 +247,10 @@ export default {
                         vue_this.dealer_pos = table_info_msg.getDealerPos();
                         vue_this.action_pos = table_info_msg.getActionPos();
                         vue_this.min_bat_cash = table_info_msg.getMinBat();
+                        var table_cards = table_info_msg.getTableCardsList();
+                        table_cards.forEach((element, index) => {
+                            vue_this.table_cards[index] = element;
+                        });
                         var all_players = table_info_msg.getPlayersList();
                         all_players.forEach(element => {
                             var cur_seat_no = element.getSeatNo();
@@ -284,32 +295,29 @@ export default {
     width: 100%;
     padding-left: 4px;
     padding-right: 4px;
+    margin-left: 0px;
 }
 
 .el-main {
-    padding-bottom: 110px;
+    height: 87%;
+    flex: unset;
 }
 
-.el-footer {
-    position: absolute;
-    bottom: 0;
-    width: 95%;
-    height: 100px;
-}
+
 
 .main-window {
     position: fixed;
     height: 100%;
     width: 100%;
-    background-color:  rgb(253, 246, 236);;
+    background-color: rgb(253, 246, 236);
+    ;
 }
 
 .el-page-header {
-    padding-top:20px;
+    padding-top: 20px;
 }
 
 .first_line_players {
-    margin-bottom: 10px;
+    margin-bottom: 1%;
 }
-
 </style>
